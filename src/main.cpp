@@ -45,12 +45,12 @@ void UpdateDrawFrame(void) {
 
 
     BeginTextureMode(target);
-        ClearBackground(RAYWHITE);
+        ClearBackground((Color){243, 229, 171, 255});
         gameState.draw();
     EndTextureMode();
 
     BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground((Color){243, 229, 171, 255});
         DrawTexturePro(target.texture,
         (Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height },
         (Rectangle){ 0, 0, (float)target.texture.width, (float)target.texture.height },

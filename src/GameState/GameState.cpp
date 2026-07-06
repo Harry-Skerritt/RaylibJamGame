@@ -4,6 +4,9 @@
 
 #include "GameState.h"
 
+GameState::GameState() : menu() {}
+
+
 void GameState::update() {
     if (current_state == State::MENU) {
         menu.update();
@@ -11,7 +14,7 @@ void GameState::update() {
             current_state = State::PLAYING;
         }
     } else if (current_state == State::PLAYING) {
-
+        game.update();
     } else if (current_state == State::GAMEOVER) {
 
     }
@@ -21,7 +24,7 @@ void GameState::draw() {
     if (current_state == State::MENU) {
         menu.draw();
     } else if (current_state == State::PLAYING) {
-
+        game.draw();
     } else if (current_state == State::GAMEOVER) {
 
     }

@@ -8,6 +8,9 @@
 
 #include "../utils/TextUtils.h"
 
+Menu::Menu() {}
+
+
 void Menu::update() {
     if (IsKeyPressed(KEY_ENTER)) {
         start_game = true;
@@ -15,12 +18,13 @@ void Menu::update() {
     }
 }
 
+
 void Menu::draw() {
     const char* title_text = "ATOMIC SYNTHESIS";
     constexpr int title_size = 60;
 
     DrawText(title_text,
-        Utils::getCentredTextPos(title_text, title_size), 150, title_size, DARKBLUE);
+        Utils::getCentredTextPos(title_text, title_size), 150, title_size, DARKBROWN);
 
     const char* start_text = "PRESS ENTER TO START";
     constexpr int start_size = 25;
