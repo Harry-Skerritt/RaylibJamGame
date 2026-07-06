@@ -5,6 +5,7 @@
 #include "Grid.h"
 #include "raylib.h"
 #include <cmath>
+#include "../utils/Element.h"
 
 Grid::Grid() {
     for (int q = -3; q <= 3; q++) {
@@ -18,20 +19,43 @@ Grid::Grid() {
 
 void Grid::update() {
     hovered_tile = getTileAtMouse();
+
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        auto tile = getTileAtMouse();
+        tile->atomic_number++;
+    }
+
+    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
+        auto tile = getTileAtMouse();
+        tile->atomic_number--;
+    }
 }
 
 
 void Grid::draw() {
     for (auto& tile : tiles) {
+        // Get Element Data
+        Element e = PeriodicTable[tile.atomic_number];
+        Color fill = getColourForType(e.type);
+
+        // Get Position for tile & Draw
         float x = hex_size * (3.0f / 2.0f * tile.q);
         float y = hex_size * (sqrt(3.0f) * (tile.r + tile.q / 2.0f));
         Vector2 pos = { x + centre_x, y + centre_y};
-
-        Color fill = (tile.atomic_number == 0) ? (Color){135, 119, 111, 255} : SKYBLUE;
-
         DrawPoly(pos, 6, hex_size - 2, 0, fill);
         DrawPolyLinesEx(pos, 6, hex_size - 2, 0, 3.0f, BLACK);
 
+        // Draw Element Data
+        if (tile.atomic_number > 0) {
+            int symbol_width = MeasureText(e.symbol, 30);
+            DrawText(e.symbol, (int)pos.x - symbol_width / 2, (int)pos.y - 20, 30, DARKGRAY);
+
+            std::string num = std::to_string(tile.atomic_number);
+            int num_width = MeasureText(num.c_str(), 15);
+            DrawText(num.c_str(), (int)pos.x - num_width / 2, (int)pos.y + 20, 15, GRAY);
+        }
+
+        // Handle Hover
         if (&tile == hovered_tile) {
             DrawPolyLinesEx(pos, 6, hex_size - 2, 0, 5.0f, YELLOW);
         }
