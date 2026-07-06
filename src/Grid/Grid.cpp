@@ -20,12 +20,12 @@ Grid::Grid() {
 void Grid::update() {
     hovered_tile = getTileAtMouse();
 
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         auto tile = getTileAtMouse();
         tile->atomic_number++;
     }
 
-    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
         auto tile = getTileAtMouse();
         tile->atomic_number--;
     }
