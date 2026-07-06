@@ -23,7 +23,15 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raylib)
 
 # Our Project
-set(SOURCES src/raylib_game.cpp)
+set(SOURCES
+        src/main.cpp
+        src/GameState/GameState.h
+        src/GameState/GameState.cpp
+        src/Menu/Menu.h
+        src/Menu/Menu.cpp
+        src/Game/Game.h
+        src/Game/Game.cpp
+)
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)
 
