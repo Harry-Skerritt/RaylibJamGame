@@ -13,7 +13,7 @@ class GameState {
 public:
     GameState();
 
-    State current_state = State::MENU;
+    State current_state = State::PLAYING; // Change to menu for prod
 
     Menu menu;
     Game game;

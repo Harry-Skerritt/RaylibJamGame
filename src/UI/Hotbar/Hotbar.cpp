@@ -3,7 +3,8 @@
 //
 
 #include "Hotbar.h"
-#include "../../utils/Colours.h"
+
+#include "../../AssetManager/AssetManager.h"
 #include "../../Grid/Tile.h"
 
 void Hotbar::drawHotbar() const {
@@ -28,9 +29,9 @@ void Hotbar::drawHotbar() const {
 
     DrawRectangleRounded(background_rect, 0.2f, 20, Fade(BLACK, 0.2f));
 
-    DrawText("Next Elements",
-        static_cast<int>(start_x - (background_padding_x / 2.0f) + 10),
-        static_cast<int>(start_y - (background_padding_y * 0.75f) + 5), 20, RAYWHITE);
+    auto font = AssetManager::GetFont("itim-20");
+    DrawTextEx(font, "Next Elements",
+        {start_x - (background_padding_x / 2.0f) + 10, start_y - (background_padding_y * 0.75f) + 5 }, 22, 2, RAYWHITE);
 
     for (int i = 0; i < slot_count; i++) {
         const float local_x = start_x + i * (slot_size + slot_gap);
@@ -84,6 +85,16 @@ int Hotbar::getSlot(const int slot_index) const {
 HotbarSlot *Hotbar::getSlots() {
     return slots;
 }
+
+int Hotbar::getNextEmptyIndex() const {
+    for (int i = 0; i < getSlotCount(); i++) {
+        if (slots[i].is_occupied) continue;
+        return i;
+    }
+
+    return -1;
+}
+
 
 
 

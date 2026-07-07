@@ -25,6 +25,8 @@ public:
 
     int getSlotCount() const { return sizeof(slots) / sizeof(slots[0]); }
 
+    int getNextEmptyIndex() const;
+
 private:
     HotbarSlot slots[3] = { false, 0 };
 };

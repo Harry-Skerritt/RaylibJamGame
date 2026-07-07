@@ -26,6 +26,7 @@ int main() {
     SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
 
     AssetManager::LoadFontKey("itim-40", "resources/fonts/Itim/Itim-Regular.ttf", 40);
+    AssetManager::LoadFontKey("itim-25", "resources/fonts/Itim/Itim-Regular.ttf", 25);
     AssetManager::LoadFontKey("itim-20", "resources/fonts/Itim/Itim-Regular.ttf", 20);
 
     // For WASM

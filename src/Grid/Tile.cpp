@@ -38,13 +38,18 @@ void Tile::draw(
 
     if (atomic_number > 0) {
         auto symbol_font = AssetManager::GetFont("itim-40");
-        int symbol_width = MeasureTextEx(symbol_font, e.symbol, 40, 2).x;
-        DrawTextEx(symbol_font, e.symbol, {pos.x - symbol_width / 2, pos.y - 30}, 40, 2, DARKGRAY);
-
         auto num_font = AssetManager::GetFont("itim-20");
-        std::string num = std::to_string(atomic_number);
-        int num_width = MeasureTextEx(num_font, num.c_str(), 20, 2).x;
-        DrawTextEx(num_font, num.c_str(), {pos.x - num_width / 2, pos.y + 15}, 20, 2, GRAY);
+
+        int symbol_width = MeasureTextEx(symbol_font, e.symbol, 40, 2).x;
+        int num_width = MeasureTextEx(num_font, std::to_string(atomic_number).c_str(), 20, 2).x;
+
+        DrawTextEx(
+            symbol_font, e.symbol,
+            {pos.x - symbol_width / 2, pos.y - 30}, 40, 2, DARKGRAY);
+
+        DrawTextEx(
+            num_font, std::to_string(atomic_number).c_str(),
+            {pos.x - num_width / 2, pos.y + 15}, 20, 2, GRAY);
     }
 }
 

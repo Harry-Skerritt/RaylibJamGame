@@ -30,7 +30,12 @@ private:
 
     bool is_placing = false;
 
+    bool has_sacrifice = false;
+    int score = 0;
+    int highest_atomic_number = 0;
+
     void shiftHotbar();
+    void updateHighestAtomicNumber(int number);
 
 };
 
