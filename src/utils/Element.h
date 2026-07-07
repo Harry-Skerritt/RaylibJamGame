@@ -5,6 +5,7 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 #include "raylib.h"
+#include "Colours.h"
 #include <string>
 
 enum ElementType {
@@ -94,7 +95,7 @@ inline Color getColourForType(ElementType type) {
         case OTHER_NON_METAL:     return (Color){ 173, 216, 230, 255 }; // Sky Blue
         case HALOGEN:             return (Color){ 255, 255, 150, 255 }; // Pale Yellow
         case NOBLE_GAS:           return (Color){ 180, 255, 255, 255 }; // Cyan
-        default:                  return (Color){ 135, 119, 111, 255 }; // Neutral Grey/Brown
+        default:                  return Colours::HEX_BACKGROUND;
     }
 }
 

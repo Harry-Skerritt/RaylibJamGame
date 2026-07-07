@@ -13,10 +13,20 @@ struct HotbarSlot {
 
 class Hotbar {
 public:
-    void drawHotbar();
+    void drawHotbar() const;
+
+    void setSlot(int slot_index, int atomic_number);
+    void clearSlot(int slot_index);
+
+    bool isSlotOccupied(int slot_index) const;
+
+    int getSlot(int slot_index) const;
+    HotbarSlot* getSlots();
+
+    int getSlotCount() const { return sizeof(slots) / sizeof(slots[0]); }
 
 private:
-    HotbarSlot slot[3] = { false };
+    HotbarSlot slots[3] = { false, 0 };
 };
 
 

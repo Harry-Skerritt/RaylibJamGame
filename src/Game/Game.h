@@ -14,12 +14,21 @@ public:
     void update();
     void draw();
 
+
+    void drawTilePlacement();
     void drawUI();
 
+    int num = 1;
+
+    bool isPlacing() const { return is_placing;}
 
 private:
     Grid m_grid;
     Hotbar m_hotbar;
+
+    bool is_placing = false;
+
+    void shiftHotbar();
 
 };
 

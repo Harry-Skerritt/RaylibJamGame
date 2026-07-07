@@ -5,13 +5,15 @@
 #include "Grid.h"
 #include "raylib.h"
 #include <cmath>
+
+#include "../utils/Colours.h"
 #include "../utils/Element.h"
 
 Grid::Grid() {
     for (int q = -3; q <= 3; q++) {
         for (int r = -3; r <= 3; r++) {
             if (abs(q + r) <= 3) {
-                tiles.push_back({q, r, 0});
+                tiles.push_back({ q, r, 0, {0, 0} });
             }
         }
     }
@@ -19,46 +21,13 @@ Grid::Grid() {
 
 void Grid::update() {
     hovered_tile = getTileAtMouse();
-
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        auto tile = getTileAtMouse();
-        tile->atomic_number++;
-    }
-
-    if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) {
-        auto tile = getTileAtMouse();
-        tile->atomic_number--;
-    }
 }
 
 
-void Grid::draw() {
+void Grid::draw(bool is_placing) {
     for (auto& tile : tiles) {
-        // Get Element Data
-        Element e = PeriodicTable[tile.atomic_number];
-        Color fill = getColourForType(e.type);
-
-        // Get Position for tile & Draw
-        float x = hex_size * (3.0f / 2.0f * tile.q);
-        float y = hex_size * (sqrt(3.0f) * (tile.r + tile.q / 2.0f));
-        Vector2 pos = { x + centre_x, y + centre_y};
-        DrawPoly(pos, 6, hex_size - 2, 0, fill);
-        DrawPolyLinesEx(pos, 6, hex_size - 2, 0, 3.0f, BLACK);
-
-        // Draw Element Data
-        if (tile.atomic_number > 0) {
-            int symbol_width = MeasureText(e.symbol, 30);
-            DrawText(e.symbol, (int)pos.x - symbol_width / 2, (int)pos.y - 20, 30, DARKGRAY);
-
-            std::string num = std::to_string(tile.atomic_number);
-            int num_width = MeasureText(num.c_str(), 15);
-            DrawText(num.c_str(), (int)pos.x - num_width / 2, (int)pos.y + 20, 15, GRAY);
-        }
-
-        // Handle Hover
-        if (&tile == hovered_tile) {
-            DrawPolyLinesEx(pos, 6, hex_size - 2, 0, 5.0f, YELLOW);
-        }
+        bool is_hovered = (&tile == hovered_tile);
+        tile.draw(hex_size, centre_x, centre_y, is_hovered, is_placing);
     }
 }
 
@@ -92,4 +61,14 @@ Tile *Grid::getNearestHex(float q, float r) {
     }
     return nullptr;
 }
+
+
+void Grid::setTile(int q, int r, int atomic_number) {
+    for (auto& tile : tiles) {
+        if (tile.q == q && tile.r == r) {
+            tile.atomic_number = atomic_number;
+        }
+    }
+}
+
 

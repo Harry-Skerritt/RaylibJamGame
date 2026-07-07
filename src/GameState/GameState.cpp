@@ -4,7 +4,7 @@
 
 #include "GameState.h"
 
-GameState::GameState() : menu() {}
+GameState::GameState() : menu(), game() {}
 
 void GameState::update() {
     if (current_state == State::MENU) {

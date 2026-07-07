@@ -5,28 +5,29 @@
 #ifndef GRID_H
 #define GRID_H
 #include <vector>
+#include "Tile.h"
 
-struct Tile {
-    int q, r;
-    int atomic_number;
-};
 
 class Grid {
 public:
     Grid();
     void update();
-    void draw();
+    void draw(bool is_placing);
 
-    void setAtom(int q, int r, int element);
+    void setTile(int q, int r, int atomic_number);
     Tile* getTile(int q, int r);
 
 
     Tile* getTileAtMouse();
     Tile* getNearestHex(float q, float r);
 
+
+    float getHexSize() { return hex_size; }
+
 private:
     Tile* hovered_tile = nullptr;
     std::vector<Tile> tiles;
+
     float hex_size = 50.0f;
     float centre_x = 360.0f;
     float centre_y = 310.0f;
