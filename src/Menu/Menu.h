@@ -7,22 +7,30 @@
 #include <vector>
 #include "raylib.h"
 
-struct BGHex {
-    Vector2 pos;
-    float rotation;
-    float speed;
-};
 
 class Menu {
 public:
     Menu();
+    ~Menu();
+
     void update();
     void draw();
     bool shouldStartGame() const { return start_game; };
 
 private:
     bool start_game = false;
-    std::vector<BGHex> bg_hexes;
+
+    void initTexture();
+    void initFont(float font_size);
+
+    void drawLogo();
+    void drawStart();
+
+    bool is_texture_loaded = false;
+    Texture2D title_texture;
+
+    bool is_font_loaded = false;
+    Font font;
 };
 
 

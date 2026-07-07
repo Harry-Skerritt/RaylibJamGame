@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "GameState/GameState.h"
 #include "UI/Hotbar/Hotbar.h"
+#include "utils/Colours.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>      // Emscripten library
@@ -46,12 +47,12 @@ void UpdateDrawFrame(void) {
 
 
     BeginTextureMode(target);
-        ClearBackground((Color){243, 229, 171, 255});
+        ClearBackground(Colours::MAIN_BACKGROUND);
         gameState.draw();
     EndTextureMode();
 
     BeginDrawing();
-        ClearBackground((Color){243, 229, 171, 255});
+        ClearBackground(Colours::MAIN_BACKGROUND);
         DrawTexturePro(target.texture,
         (Rectangle){ 0, 0, (float)target.texture.width, -(float)target.texture.height },
         (Rectangle){ 0, 0, (float)target.texture.width, (float)target.texture.height },
