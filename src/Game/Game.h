@@ -22,6 +22,7 @@ public:
     void drawUI();
 
     void performMergeCheck(Tile* tile,  bool first_run = true);
+    void calcSacrifice();
 
     int num = 1;
 
@@ -34,10 +35,18 @@ private:
 
     bool is_placing = false;
 
+    bool sacrifice_mode = false;
     bool has_sacrifice = false;
+    int earn_sacrifice_amt = 10;
+    int num_sacrifice = 0;
     int score = 0;
 
+    Vector2 grid_pos = { 360.0f, 310.0f };
+    Vector2 grid_sacrifice_pos = { 360.0f, 360.0f };
+
     void shiftHotbar();
+
+    void checkMouse();
 
 };
 

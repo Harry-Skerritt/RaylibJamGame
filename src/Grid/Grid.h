@@ -13,7 +13,7 @@ class Grid {
 public:
     Grid();
     void update();
-    void draw(bool is_placing);
+    void draw(bool is_placing, Vector2 grid_pos);
 
     void setTile(int q, int r, int atomic_number);
     Tile* getTile(int q, int r);
@@ -31,8 +31,10 @@ private:
     std::vector<Tile> tiles;
 
     float hex_size = 50.0f;
-    float centre_x = 360.0f;
-    float centre_y = 310.0f;
+    //float centre_x = 360.0f;
+    //float centre_y = 310.0f;
+
+    float centre_x, centre_y;
 
     const Vector2 neighbours[6] = {
         { 0, -1 }, { 1, -1 }, { 1, 0 },

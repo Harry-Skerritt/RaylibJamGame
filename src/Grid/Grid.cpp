@@ -24,7 +24,10 @@ void Grid::update() {
     hovered_tile = getTileAtMouse();
 }
 
-void Grid::draw(bool is_placing) {
+void Grid::draw(bool is_placing, Vector2 grid_pos) {
+    centre_x = grid_pos.x;
+    centre_y = grid_pos.y;
+
     for (auto& tile : tiles) tile.is_highlighted = false;
 
     if (highlight_neighbours) {

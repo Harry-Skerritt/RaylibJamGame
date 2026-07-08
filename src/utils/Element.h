@@ -20,6 +20,7 @@ struct Element {
     ElementType type;
 };
 
+
 static const Element PeriodicTable[] = {
     { "", "", NONE }, // 0
     { "H", "Hydrogen", OTHER_NON_METAL }, { "He", "Helium", NOBLE_GAS },
@@ -82,6 +83,8 @@ static const Element PeriodicTable[] = {
     { "Mc", "Moscovium", OTHER_METAL }, { "Lv", "Livermorium", OTHER_METAL },
     { "Ts", "Tennessine", HALOGEN }, { "Og", "Oganesson", NOBLE_GAS }
 };
+
+static constexpr int ELEMENT_COUNT = std::size(PeriodicTable) - 1;
 
 inline Color getColourForType(ElementType type) {
     switch (type) {

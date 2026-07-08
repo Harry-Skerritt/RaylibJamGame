@@ -8,8 +8,9 @@
 #include <random>
 
 #include "raylib.h"
+#include "../utils/Element.h"
 
-Spawner::Spawner(int element_count) : max_elements(element_count) {}
+Spawner::Spawner() {}
 Spawner::~Spawner() = default;
 
 
@@ -42,4 +43,5 @@ int Spawner::spawnRandomElement() const {
 
 void Spawner::setMaxAtomicNumber(int max) {
     if (max > max_atomic_number) max_atomic_number = max;
+    max_atomic_number = std::min(max_atomic_number, ELEMENT_COUNT);
 }

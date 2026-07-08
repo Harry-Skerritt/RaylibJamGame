@@ -11,9 +11,10 @@
 
 #include "../AssetManager/AssetManager.h"
 #include "../utils/Element.h"
+#include "../utils/TextUtils.h"
 
 Game::Game()
-    : m_grid(), m_spawner(sizeof(PeriodicTable) / sizeof(*PeriodicTable)) {}
+    : m_grid(), m_spawner() {}
 
 Game::~Game() {
 }
@@ -23,42 +24,47 @@ Game::~Game() {
 void Game::update() {
     m_grid.update();
 
-    if (IsKeyPressed(KEY_E)) {
+    // DEBUG
+    if (IsKeyPressed(KEY_G)) {
         auto next_slot = m_hotbar.getNextEmptyIndex();
         if (next_slot == -1) return;
         m_hotbar.setSlot(next_slot, m_spawner.spawnRandomElement());
     }
 
-    if (IsKeyPressed(KEY_R)) {
+    if (IsKeyPressed(KEY_E)) {
+        if (has_sacrifice) {
+            sacrifice_mode = !sacrifice_mode;
+        }
+    }
+
+    // DEBUG
+    if (IsKeyDown(KEY_R)) {
         m_spawner.setMaxAtomicNumber(m_spawner.getMaxAtomicNumber() + 1);
+        calcSacrifice();
+
+        std::cout << "Has Sacrifice: " << has_sacrifice << " | Count: " << num_sacrifice << std::endl;
     }
 
     is_placing = m_hotbar.isSlotOccupied(0);
-
-    if (is_placing && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        Tile* tile = m_grid.getTileAtMouse();
-
-        if (tile && tile->isValidPlacement()) {
-            m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
-            // Temp
-            score += m_hotbar.getSlot(0);
-            // ---
-            shiftHotbar();
-        }
-
-        performMergeCheck(tile);
-
-    }
+    checkMouse();
 }
 
 void Game::draw() {
-    m_grid.draw(is_placing);
+    if (sacrifice_mode) {
+        m_grid.draw(is_placing, grid_sacrifice_pos);
+        return;
+    }
+
+    m_grid.draw(is_placing, grid_pos);
     drawTilePlacement();
 }
 
 void Game::drawUI() {
-    m_hotbar.drawHotbar();
+    // Draw Hotbar
+    if (!sacrifice_mode)
+        m_hotbar.drawHotbar();
 
+    // Draw 'Stats'
     auto ui_font = AssetManager::GetFont("itim-25");
     const int font_size = 25;
     const int text_gap = 10;
@@ -66,7 +72,8 @@ void Game::drawUI() {
 
     std::string score_str = "Score: " + std::to_string(score);
     std::string highest_str = "Highest Atomic No: " + std::to_string(m_spawner.getMaxAtomicNumber());
-    std::string sacrifice_str = has_sacrifice ? "Sacrifice Available" : "Sacrifice Unavailable";
+    std::string sacrifice_count = "Sacrifice Available (" + std::to_string(num_sacrifice) + ") [E]";
+    std::string sacrifice_str = has_sacrifice ?  sacrifice_count : "Sacrifice Unavailable";
 
     auto drawLine = [&](const std::string& text, Color color) {
         DrawTextEx(ui_font, text.c_str(), { (float)text_gap, current_y }, font_size, 2, color);
@@ -76,6 +83,18 @@ void Game::drawUI() {
     drawLine(sacrifice_str, has_sacrifice ? GREEN : RED);
     drawLine(highest_str, RAYWHITE);
     drawLine(score_str, RAYWHITE);
+
+    // Draw Sacrifice Stuff
+    if (sacrifice_mode) {
+        auto sm_font = AssetManager::GetFont("itim-40");
+        auto sm_x = Utils::getCentredTextPosEx("SACRIFICE_MODE", 40, &sm_font, 2);
+
+        Rectangle sm_background = {0, 0, (float)GetScreenWidth(), 100 };
+
+        DrawRectangleGradientEx(sm_background, BLACK, Fade(BLACK, 0.0f), Fade(BLACK, 0.0f), BLACK);
+
+        DrawTextEx(sm_font, "SACRIFICE MODE", { (float)sm_x, 20 }, 40, 2, RED);
+    }
 }
 
 void Game::drawTilePlacement() {
@@ -113,6 +132,19 @@ void Game::performMergeCheck(Tile* tile, const bool first_run) {
         }
     }
 }
+
+
+void Game::calcSacrifice() {
+    if ((m_spawner.getMaxAtomicNumber() % earn_sacrifice_amt) == 0) {
+        num_sacrifice += 1;
+    }
+
+    has_sacrifice = (num_sacrifice >= 1);
+}
+
+
+
+
 // Private
 void Game::shiftHotbar() {
     for (int i = 0; i < m_hotbar.getSlotCount(); i++) {
@@ -125,6 +157,38 @@ void Game::shiftHotbar() {
 
     m_hotbar.clearSlot(2);
     is_placing = false;
+}
+
+void Game::checkMouse() {
+    if (!IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) return;
+
+    Tile* tile = m_grid.getTileAtMouse();
+
+    if (sacrifice_mode) {
+        if (tile && tile->atomic_number > 0) {
+            m_grid.setTile(tile->q, tile->r, 0);
+        }
+        num_sacrifice -= 1;
+        if (num_sacrifice <= 0) {
+            has_sacrifice = false;
+            sacrifice_mode = false;
+        }
+        return;
+    }
+
+    if (is_placing) {
+        if (tile && tile->isValidPlacement()) {
+            m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
+            // Temp
+            score += m_hotbar.getSlot(0);
+            // ---
+            shiftHotbar();
+        }
+
+        performMergeCheck(tile);
+        calcSacrifice();
+        return;
+    }
 }
 
 
