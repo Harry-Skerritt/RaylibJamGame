@@ -38,6 +38,8 @@ private:
         { 0, -1 }, { 1, -1 }, { 1, 0 },
         { 0, 1 }, { -1, 1 }, { -1, 0 }
     };
+
+    bool highlight_neighbours = false;
 };
 
 

@@ -27,15 +27,18 @@ void Grid::update() {
 void Grid::draw(bool is_placing) {
     for (auto& tile : tiles) tile.is_highlighted = false;
 
-    if (hovered_tile != nullptr) {
-        for (int i = 0; i < 6; i++) {
-            Tile* n = getNeighbour(hovered_tile->q, hovered_tile->r, i);
-            if (n != nullptr) {
-                n->is_highlighted = true;
-                n->neighbour = i;
+    if (highlight_neighbours) {
+        if (hovered_tile != nullptr) {
+            for (int i = 0; i < 6; i++) {
+                Tile* n = getNeighbour(hovered_tile->q, hovered_tile->r, i);
+                if (n != nullptr) {
+                    n->is_highlighted = true;
+                    n->neighbour = i;
+                }
             }
         }
     }
+
 
     for (auto& tile : tiles) {
         bool is_hovered = (&tile == hovered_tile);

@@ -21,6 +21,8 @@ public:
     void drawTilePlacement();
     void drawUI();
 
+    void performMergeCheck(Tile* tile,  bool first_run = true);
+
     int num = 1;
 
     bool isPlacing() const { return is_placing;}

@@ -6,6 +6,8 @@
 #include "raylib.h"
 #include "../Grid/Tile.h"
 #include <cmath>
+#include <iostream>
+#include <ostream>
 
 #include "../AssetManager/AssetManager.h"
 #include "../utils/Element.h"
@@ -40,10 +42,11 @@ void Game::update() {
             m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
             // Temp
             score += m_hotbar.getSlot(0);
-            m_spawner.setMaxAtomicNumber(m_hotbar.getSlot(0));
             // ---
             shiftHotbar();
         }
+
+        performMergeCheck(tile);
 
     }
 }
@@ -85,7 +88,30 @@ void Game::drawTilePlacement() {
     }
 }
 
+void Game::performMergeCheck(Tile* tile, bool first_run) {
 
+    for (int i = 0; i < 6; i++) {
+        auto n = m_grid.getNeighbour(tile->q, tile->r, i);
+
+        if (n->atomic_number == tile->atomic_number) {
+            // Up the placed tile
+            auto new_an = tile->atomic_number + 1;
+            m_grid.setTile(tile->q, tile->r, new_an);
+            m_spawner.setMaxAtomicNumber(new_an);
+
+            // Increase Score
+            // Todo: Figure out a value for this
+            score += 1;
+
+            // Remove old tile
+            m_grid.setTile(n->q, n->r, 0);
+
+            // Recheck
+            // Todo: Change this to a count
+            if (first_run) performMergeCheck(tile, false);
+        }
+    }
+}
 // Private
 void Game::shiftHotbar() {
     for (int i = 0; i < m_hotbar.getSlotCount(); i++) {
