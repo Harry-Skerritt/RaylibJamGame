@@ -88,14 +88,15 @@ void Game::drawTilePlacement() {
     }
 }
 
-void Game::performMergeCheck(Tile* tile, bool first_run) {
+void Game::performMergeCheck(Tile* tile, const bool first_run) {
 
     for (int i = 0; i < 6; i++) {
-        auto n = m_grid.getNeighbour(tile->q, tile->r, i);
+        const auto n = m_grid.getNeighbour(tile->q, tile->r, i);
+        if (n == nullptr) continue;
 
         if (n->atomic_number == tile->atomic_number) {
             // Up the placed tile
-            auto new_an = tile->atomic_number + 1;
+            const auto new_an = tile->atomic_number + 1;
             m_grid.setTile(tile->q, tile->r, new_an);
             m_spawner.setMaxAtomicNumber(new_an);
 
