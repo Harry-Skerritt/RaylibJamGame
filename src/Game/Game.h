@@ -41,6 +41,9 @@ private:
     int num_sacrifice = 0;
     int score = 0;
 
+    float spawn_timer = 0.0f;
+    float spawn_interval = 2.0f; // Seconds
+
     Vector2 grid_pos = { 360.0f, 310.0f };
     Vector2 grid_sacrifice_pos = { 360.0f, 360.0f };
 

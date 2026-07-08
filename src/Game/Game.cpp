@@ -19,30 +19,26 @@ Game::Game()
 Game::~Game() {
 }
 
-
-
 void Game::update() {
     m_grid.update();
 
-    // DEBUG
-    if (IsKeyPressed(KEY_G)) {
+    // Auto Generate Elements
+    spawn_timer += GetFrameTime();
+    if (spawn_timer >= spawn_interval) {
         auto next_slot = m_hotbar.getNextEmptyIndex();
-        if (next_slot == -1) return;
-        m_hotbar.setSlot(next_slot, m_spawner.spawnRandomElement());
+
+        if (next_slot != -1) {
+            m_hotbar.setSlot(next_slot, m_spawner.spawnRandomElement());
+        }
+
+        spawn_timer = 0.0f;
     }
 
+    // Sacrifice Mode
     if (IsKeyPressed(KEY_E)) {
         if (has_sacrifice) {
             sacrifice_mode = !sacrifice_mode;
         }
-    }
-
-    // DEBUG
-    if (IsKeyDown(KEY_R)) {
-        m_spawner.setMaxAtomicNumber(m_spawner.getMaxAtomicNumber() + 1);
-        calcSacrifice();
-
-        std::cout << "Has Sacrifice: " << has_sacrifice << " | Count: " << num_sacrifice << std::endl;
     }
 
     is_placing = m_hotbar.isSlotOccupied(0);
