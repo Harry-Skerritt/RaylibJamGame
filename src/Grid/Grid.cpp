@@ -22,21 +22,6 @@ void Grid::draw(bool is_placing, Vector2 grid_pos) {
     centre_x = grid_pos.x;
     centre_y = grid_pos.y;
 
-    for (auto& tile : tiles) tile.is_highlighted = false;
-
-    if (highlight_neighbours) {
-        if (hovered_tile != nullptr) {
-            for (int i = 0; i < 6; i++) {
-                Tile* n = getNeighbour(hovered_tile->q, hovered_tile->r, i);
-                if (n != nullptr) {
-                    n->is_highlighted = true;
-                    n->neighbour = i;
-                }
-            }
-        }
-    }
-
-
     for (auto& tile : tiles) {
         bool is_hovered = (&tile == hovered_tile);
         tile.draw(hex_size, centre_x, centre_y, is_hovered, is_placing);
@@ -49,10 +34,12 @@ void Grid::reset() {
     for (int q = -3; q <= 3; q++) {
         for (int r = -3; r <= 3; r++) {
             if (abs(q + r) <= 3) {
-                tiles.push_back({ q, r, 0, {0, 0} });
+                tiles.push_back({ q, r, 0, {0, 0}, tile_free_goes });
             }
         }
     }
+
+
 }
 
 // Math
@@ -90,6 +77,9 @@ void Grid::setTile(const int q, const int r, const int atomic_number) {
     for (auto& tile : tiles) {
         if (tile.q == q && tile.r == r) {
             tile.atomic_number = atomic_number;
+            tile.stability = 1.0f;
+            tile.stability_passes = tile_free_goes;
+            tile.is_volatile = false;
         }
     }
 }
@@ -117,6 +107,68 @@ int Grid::getEmptyTiles() const {
     }
 
     return empty_tiles;
+}
+
+// Balancing
+std::vector<int> Grid::getOrphanedAtomicNumbers(int limit) {
+    std::vector<int> orphans;
+
+    for (auto& tile : tiles) {
+        if (tile.atomic_number >= limit) {
+            bool has_match = false;
+
+            for (int i = 0; i < 6; i++) {
+                Tile* n = getNeighbour(tile.q, tile.r, i);
+                if (n && n->atomic_number == tile.atomic_number) {
+                    has_match = true;
+                    break;
+                }
+            }
+
+            if (!has_match) orphans.push_back(tile.atomic_number);
+        }
+    }
+    return orphans;
+}
+
+int Grid::getMinAtomicNumber() {
+    int min = 999;
+    for (auto& tile : tiles) {
+        if (tile.atomic_number > 0) {
+            min = std::min(min, tile.atomic_number);
+        }
+    }
+    return min;
+}
+
+std::vector<Tile*> Grid::getUnstableTiles() {
+    std::vector<Tile*> unstable_tiles;
+
+    for (auto& tile : tiles) {
+        if (tile.atomic_number > 0 && tile.stability < 1.0f) {
+            unstable_tiles.push_back(&tile);
+        }
+    }
+
+    return unstable_tiles;
+}
+
+void Grid::updateStability(Tile *tile) {
+    for (auto& t : tiles) {
+        if (t.atomic_number <= 0 || (t.q == tile->q && t.r == tile->r)) continue;
+
+        if (t.getStabilityPasses() > 0) {
+            t.minusPass();
+        } else {
+          t.changeStability(-stability_decrease);
+        }
+
+        if (t.getStability() <= 0.0f && !t.is_volatile) {
+            // Tile Explosion
+            t.is_volatile = true;
+            return;
+        }
+    }
 }
 
 

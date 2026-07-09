@@ -7,6 +7,7 @@
 #include <vector>
 #include "Tile.h"
 #include "raylib.h"
+#include "../utils/Element.h"
 
 
 class Grid {
@@ -28,6 +29,12 @@ public:
 
     int getEmptyTiles() const;
 
+    // Balancing
+    std::vector<int> getOrphanedAtomicNumbers(int limit);
+    int getMinAtomicNumber();
+    std::vector<Tile*> getUnstableTiles();
+
+    void updateStability(Tile* tile);
 
     void reset();
 
@@ -36,9 +43,6 @@ private:
     std::vector<Tile> tiles;
 
     float hex_size = 50.0f;
-    //float centre_x = 360.0f;
-    //float centre_y = 310.0f;
-
     float centre_x, centre_y;
 
     const Vector2 neighbours[6] = {
@@ -47,6 +51,9 @@ private:
     };
 
     bool highlight_neighbours = false;
+
+    int tile_free_goes = 8; // 8
+    float stability_decrease = 0.1f; // 0.1f
 };
 
 

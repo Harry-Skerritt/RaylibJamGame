@@ -14,30 +14,33 @@ Spawner::Spawner() {}
 Spawner::~Spawner() = default;
 
 
-int Spawner::spawnRandomElement() const {
+int Spawner::spawnRandomElement(Grid* grid) const {
     int current_max = max_atomic_number;
+    if (current_max <= 2) return GetRandomValue(1, current_max);
 
-    if (current_max <= 1) return 1;
+    int min_present = grid->getMinAtomicNumber();
+    int effective_floor = std::max(min_present, current_max / 2);
 
-    bool has_legacy = (current_max >= 10);
-    int legacy_ceiling = has_legacy ? (current_max / 5) : 0;
+    // 30% Chance of a 'rescue'
+    std::vector<int> orphans = grid->getOrphanedAtomicNumbers(10);
+    if (!orphans.empty() && GetRandomValue(0, 100) < 30) {
+        return orphans[GetRandomValue(0, static_cast<int>(orphans.size()) - 1)];
+    }
 
     int roll = GetRandomValue(1, 100);
 
-    if (has_legacy && roll <= 10) {
-        // 10% Chance to get a low level (1-10)
-        return GetRandomValue(1, legacy_ceiling);
+    // 10% Chance to get a low level
+    if (roll <= 10 && min_present < (current_max / 4)) {
+        return GetRandomValue(1,  std::max(1, min_present + 5));
     }
-    else if (roll <= 70) {
-        // 60% Chance for something currently in use
-        int working_floor = std::max(legacy_ceiling + 1, current_max - 15);
-        return GetRandomValue(working_floor, current_max - 1);
+
+    // 50% Chance for something currently in use
+    if (roll <= 60) {
+        return GetRandomValue(effective_floor, current_max - 2);
     }
-    else {
-        // 30% chance for the "new stuff"
-        int newest_floor = std::max(2, current_max - 3);
-        return GetRandomValue(newest_floor, current_max);
-    }
+
+    // 40% Chance for "New Stuff"
+    return GetRandomValue(std::max(effective_floor, current_max - 3), current_max);
 }
 
 

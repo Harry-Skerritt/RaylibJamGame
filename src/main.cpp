@@ -32,6 +32,7 @@ int main() {
     AssetManager::LoadFontKey("itim-20", "resources/fonts/Itim/Itim-Regular.ttf", 20);
 
     AssetManager::LoadFontKey("iceland-100", "resources/fonts/Iceland/Iceland-Regular.ttf", 100);
+    AssetManager::LoadFontKey("iceland-80", "resources/fonts/Iceland/Iceland-Regular.ttf", 80);
     AssetManager::LoadFontKey("iceland-50", "resources/fonts/Iceland/Iceland-Regular.ttf", 50);
     AssetManager::LoadFontKey("iceland-40", "resources/fonts/Iceland/Iceland-Regular.ttf", 40);
 
@@ -48,6 +49,8 @@ int main() {
     AssetManager::LoadSoundKey("btn-click", "resources/sounds/button.ogg");
     AssetManager::LoadSoundKey("game-start", "resources/sounds/game_start.ogg");
     AssetManager::LoadSoundKey("sacrifice-mode", "resources/sounds/sacrifice_mode.ogg");
+    AssetManager::LoadSoundKey("game-win", "resources/sounds/game_win.ogg");
+    AssetManager::LoadSoundKey("catalyst", "resources/sounds/catalyst.ogg");
 
     // Music
     AssetManager::LoadMusicKey("main-music", "resources/music/main-music.mp3");

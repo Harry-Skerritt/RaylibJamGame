@@ -9,6 +9,7 @@
 
 #include "../Grid/Tile.h"
 #include "../AssetManager/AssetManager.h"
+#include "../utils/Element.h"
 #include "../utils/TextUtils.h"
 
 Game::Game()
@@ -29,7 +30,7 @@ void Game::update() {
         auto next_slot = m_hotbar.getNextEmptyIndex();
 
         if (next_slot != -1) {
-            m_hotbar.setSlot(next_slot, m_spawner.spawnRandomElement());
+            m_hotbar.setSlot(next_slot, m_spawner.spawnRandomElement(&m_grid));
         }
 
         spawn_timer = 0.0f;
@@ -43,16 +44,34 @@ void Game::update() {
         }
     }
 
+    // Placing
     is_placing = m_hotbar.isSlotOccupied(0);
     checkMouse();
 
+    static int frameCounter = 0;
+    if (!catalyst_queue.empty() && frameCounter++ % 5 == 0) { // Every 5 frames
+        Tile* next = catalyst_queue.front();
+        catalyst_queue.pop();
+        performCatalystExplosion(next);
+    }
+
+    if (is_pulsing) {
+        pulse_radius += 4.0f;
+        if (pulse_radius > 150.0f) {
+            is_pulsing = false;
+        }
+    }
+
+    // Game Lost
     if (m_grid.getEmptyTiles() == 0) {
         PlaySound(AssetManager::GetSound("game-over"));
         game_over = true;
     }
 
-    if (IsKeyPressed(KEY_W)) {
-        game_over = true;
+    // Game Won
+    if (m_spawner.getMaxAtomicNumber() == ELEMENT_COUNT) {
+        PlaySound(AssetManager::GetSound("game-win"));
+        game_won = true;
     }
 }
 
@@ -63,6 +82,13 @@ void Game::draw() {
     }
 
     m_grid.draw(is_placing, grid_pos);
+
+    if (is_pulsing) {
+        DrawRing(
+            pulse_origin, pulse_radius, pulse_radius + 5.0f,
+            0, 360, 30, Fade(GOLD, 1.0f - (pulse_radius / 150.0f)));
+    }
+
     drawTilePlacement();
 }
 
@@ -169,6 +195,7 @@ void Game::reset() {
     spawn_timer = 0.0f;
     num_sacrifice = 0;
     has_sacrifice = false;
+    current_max = 0;
 
     // Reset Grid
     m_grid.reset();
@@ -180,6 +207,7 @@ void Game::reset() {
     m_hotbar.setSlot(0, 1);
 
     game_over = false;
+    game_won = false;
 }
 
 void Game::removeTiles(int amt) {
@@ -234,20 +262,60 @@ void Game::checkMouse() {
         return;
     }
 
-    if (is_placing) {
-        if (tile && tile->isValidPlacement()) {
-            m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
-            PlaySound(AssetManager::GetSound("tile-place"));
-            // Temp
-            score += m_hotbar.getSlot(0);
-            // ---
-            shiftHotbar();
-        }
-
-        performMergeCheck(tile);
-        return;
-    }
+    if (!is_placing) return;
+    placeTile(tile);
 }
+
+void Game::placeTile(Tile* tile) {
+    if (!tile || !tile->isValidPlacement()) return;
+
+    // Placing
+    m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
+
+    for (int i = 0; i < 6; i++) {
+        Tile* n = m_grid.getNeighbour(tile->q, tile->r, i);
+        if (n && n->is_volatile) {
+            catalyst_queue.push(n);
+            m_grid.setTile(n->q, n->r, 0);
+        }
+    }
+
+    PlaySound(AssetManager::GetSound("tile-place"));
+
+    // Score + Hotbar
+    score += m_hotbar.getSlot(0);
+    shiftHotbar();
+
+    // Merging
+    performMergeCheck(tile);
+
+    // Stability
+    m_grid.updateStability(tile);
+}
+
+
+void Game::performCatalystExplosion(Tile *tile) {
+    PlaySound(AssetManager::GetSound("catalyst"));
+    pulse_origin = tile->pos;
+    is_pulsing = true;
+    pulse_radius = 0.0f;
+    m_grid.setTile(tile->q, tile->r, 0);
+
+    for (int i = 0; i < 6; i++) {
+        Tile* n = m_grid.getNeighbour(tile->q, tile->r, i);
+        if (!n || n->atomic_number <= 0) continue;
+
+        if (n->is_volatile) {
+            catalyst_queue.push(n);
+            m_grid.setTile(n->q, n->r, 0);
+        } else {
+            increaseTileNumber(n->q, n->r, 1);
+            Tile* updated_n = m_grid.getTile(n->q, n->r);
+            performMergeCheck(updated_n);
+        }
+    };
+}
+
 
 void Game::increaseTileNumber(const int q, const int r, const int amt) {
     Tile* tile = m_grid.getTile(q, r);
@@ -259,10 +327,3 @@ void Game::increaseTileNumber(const int q, const int r, const int amt) {
 
     checkSacrificeMilestone(new_atomic_number);
 }
-
-
-
-
-
-
-

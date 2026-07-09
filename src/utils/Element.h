@@ -102,6 +102,14 @@ inline Color getColourForType(ElementType type) {
     }
 }
 
+struct Coord {
+    int q, r;
+
+    bool operator==(const Coord& other) const {
+        return q == other.q && r == other.r;
+    }
+};
+
 
 
 #endif //ELEMENT_H

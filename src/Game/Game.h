@@ -7,14 +7,7 @@
 #include "Spawner.h"
 #include "../Grid/Grid.h"
 #include "../UI/Hotbar/Hotbar.h"
-
-struct Coord {
-    int q, r;
-
-    bool operator==(const Coord& other) const {
-        return q == other.q && r == other.r;
-    }
-};
+#include <queue>
 
 class Game {
 public:
@@ -29,16 +22,13 @@ public:
     void drawUI();
 
     void performMergeCheck(const Tile* tile);
-    bool canMerge();
-
     void checkSacrificeMilestone(int new_max);
-
-    int num = 1;
 
     [[nodiscard]] bool isPlacing() const { return is_placing; }
 
     // Game Win / Lose
     [[nodiscard]] bool isGameOver() const { return game_over; }
+    [[nodiscard]] bool isGameWon() const { return game_won; }
 
     [[nodiscard]] int getScore() const { return score; }
     [[nodiscard]] int getUnlocked() const { return m_spawner.getMaxAtomicNumber(); }
@@ -71,15 +61,24 @@ private:
 
     // Spawning
     float spawn_timer = 0.0f;
-    float spawn_interval = 1.0f; // Seconds
+    float spawn_interval = 0.8f; // Seconds
 
     // States
     bool game_over = false;
+    bool game_won = false;
+
+    // Catalyst
+    float pulse_radius = 0.0f;
+    bool is_pulsing = false;
+    Vector2 pulse_origin = {0,0};
+    std::queue<Tile*> catalyst_queue;
+    void triggerCatalyst(Tile* tile);
+    void performCatalystExplosion(Tile* tile);
 
     void shiftHotbar();
     void checkMouse();
     void increaseTileNumber(int q, int r, int amt);
-
+    void placeTile(Tile* tile);
 };
 
 

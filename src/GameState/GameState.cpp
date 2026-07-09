@@ -28,32 +28,60 @@ void GameState::update() {
             swapMusic("main-music");
             current_state = State::PLAYING;
         }
-
-    } else if (current_state == State::PLAYING) {
+    }
+    else if (current_state == State::PLAYING) {
         game.update();
 
         if (game.isGameOver()) {
             game_over.init(&game);
             current_state = State::GAMEOVER;
         }
-    } else if (current_state == State::GAMEOVER) {
+
+        if (game.isGameWon()) {
+            game_win.init();
+            current_state = State::GAMEWIN;
+        }
+    }
+    else if (current_state == State::GAMEOVER) {
         game_over.update();
 
         int result_state = game_over.getResultState();
         switch (result_state) {
             case(0):
+                // Quit
                 game.reset();
                 swapMusic("menu-music");
                 current_state = State::MENU;
                 break;
 
             case(1):
+                // Restart
                 game.reset();
                 current_state = State::PLAYING;
                 break;
 
             case(2):
+                // Continue
                 game.removeTiles(game.sacrificeCount());
+                current_state = State::PLAYING;
+                break;
+        }
+    }
+    else if (current_state == State::GAMEWIN) {
+        game_win.update();
+
+        int result_state = game_win.getResultState();
+        switch (result_state) {
+            case(0):
+                // Quit
+                game.reset();
+                swapMusic("menu-music");
+                current_state = State::MENU;
+                break;
+
+            case(1):
+                // Restart
+                game.reset();
                 current_state = State::PLAYING;
                 break;
         }
@@ -63,10 +91,15 @@ void GameState::update() {
 void GameState::draw() {
     if (current_state == State::MENU) {
         menu.draw();
-    } else if (current_state == State::PLAYING) {
+    }
+    else if (current_state == State::PLAYING) {
         game.draw();
-    } else if (current_state == State::GAMEOVER) {
+    }
+    else if (current_state == State::GAMEOVER) {
         game_over.draw();
+    }
+    else if (current_state == State::GAMEWIN) {
+        game_win.draw();
     }
 }
 

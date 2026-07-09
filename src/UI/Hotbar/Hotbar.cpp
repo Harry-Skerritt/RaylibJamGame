@@ -55,7 +55,7 @@ void Hotbar::drawHotbar() const {
             };
 
             if (slots[i].atomic_number > 0) {
-                Tile temp_tile(0, 0, slots[i].atomic_number, centre);
+                Tile temp_tile(0, 0, slots[i].atomic_number, centre, 3);
                 temp_tile.drawTempTile(centre, h_slot_size - 5, slots[i].atomic_number);
             }
         }

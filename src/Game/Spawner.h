@@ -5,14 +5,14 @@
 #ifndef SPAWNER_H
 #define SPAWNER_H
 #include <algorithm>
-
+#include "../Grid/Grid.h"
 
 class Spawner {
 public:
     Spawner();
     ~Spawner();
 
-    [[nodiscard]] int spawnRandomElement() const;
+    [[nodiscard]] int spawnRandomElement(Grid* grid) const;
 
     [[nodiscard]] int getMaxAtomicNumber() const { return max_atomic_number; }
     void setMaxAtomicNumber(int max);

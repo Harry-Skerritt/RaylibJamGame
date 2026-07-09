@@ -45,6 +45,8 @@ set(SOURCES
         src/GameOver/GameOver.cpp
         src/UI/Button/Button.h
         src/UI/Button/Button.cpp
+        src/GameWin/GameWin.h
+        src/GameWin/GameWin.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)
