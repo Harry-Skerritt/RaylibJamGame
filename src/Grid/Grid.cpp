@@ -11,13 +11,7 @@
 #include "../utils/Element.h"
 
 Grid::Grid() {
-    for (int q = -3; q <= 3; q++) {
-        for (int r = -3; r <= 3; r++) {
-            if (abs(q + r) <= 3) {
-                tiles.push_back({ q, r, 0, {0, 0} });
-            }
-        }
-    }
+    reset();
 }
 
 void Grid::update() {
@@ -49,6 +43,17 @@ void Grid::draw(bool is_placing, Vector2 grid_pos) {
     }
 }
 
+void Grid::reset() {
+    tiles.clear();
+
+    for (int q = -3; q <= 3; q++) {
+        for (int r = -3; r <= 3; r++) {
+            if (abs(q + r) <= 3) {
+                tiles.push_back({ q, r, 0, {0, 0} });
+            }
+        }
+    }
+}
 
 // Math
 Tile *Grid::getTileAtMouse() {
@@ -98,7 +103,6 @@ Tile *Grid::getTile(const int q, const int r) {
     return nullptr;
 }
 
-
 Tile *Grid::getNeighbour(const float q, const float r, const int neighbour) {
     auto [x, y] = neighbours[neighbour];
     const Vector2 neighbour_coords = { q + x, r + y };
@@ -106,6 +110,14 @@ Tile *Grid::getNeighbour(const float q, const float r, const int neighbour) {
     return getTile(neighbour_coords.x, neighbour_coords.y);
 }
 
+int Grid::getEmptyTiles() const {
+    int empty_tiles = 0;
+    for (auto& tile : tiles) {
+        if (tile.atomic_number == 0) empty_tiles++;
+    }
+
+    return empty_tiles;
+}
 
 
 

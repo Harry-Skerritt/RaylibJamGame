@@ -25,9 +25,20 @@ int main() {
     target = LoadRenderTexture(screen_width, screen_height);
     SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);
 
+    // Load Fonts
     AssetManager::LoadFontKey("itim-40", "resources/fonts/Itim/Itim-Regular.ttf", 40);
     AssetManager::LoadFontKey("itim-25", "resources/fonts/Itim/Itim-Regular.ttf", 25);
     AssetManager::LoadFontKey("itim-20", "resources/fonts/Itim/Itim-Regular.ttf", 20);
+
+    AssetManager::LoadFontKey("iceland-100", "resources/fonts/Iceland/Iceland-Regular.ttf", 100);
+    AssetManager::LoadFontKey("iceland-50", "resources/fonts/Iceland/Iceland-Regular.ttf", 50);
+    AssetManager::LoadFontKey("iceland-40", "resources/fonts/Iceland/Iceland-Regular.ttf", 40);
+
+    // Load Textures
+    AssetManager::LoadTextureKey("atom", "resources/textures/atom.png");
+    AssetManager::LoadTextureKey("small-btn", "resources/textures/small-btn-background.png");
+
+
 
     // For WASM
 #if defined(PLATFORM_WEB)

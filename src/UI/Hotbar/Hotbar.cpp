@@ -73,6 +73,14 @@ void Hotbar::clearSlot(const int slot_index) {
     slots[slot_index].atomic_number = 0;
 }
 
+void Hotbar::clearAll() {
+    for (int i = 0; i < 3; i++) {
+        slots[i].is_occupied = false;
+        slots[i].atomic_number = 0;
+    }
+}
+
+
 bool Hotbar::isSlotOccupied(const int slot_index) const {
     return slots[slot_index].is_occupied;
 }

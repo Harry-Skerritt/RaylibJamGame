@@ -44,6 +44,15 @@ void Game::update() {
 
     is_placing = m_hotbar.isSlotOccupied(0);
     checkMouse();
+
+    if (m_grid.getEmptyTiles() == 0) {
+        std::cout << "GAME OVER" << std::endl;
+        game_over = true;
+    }
+
+    if (IsKeyPressed(KEY_O)) {
+        game_over = true;
+    }
 }
 
 void Game::draw() {
@@ -148,6 +157,45 @@ void Game::checkSacrificeMilestone(const int new_max) {
 
     has_sacrifice = (num_sacrifice >= 1);
 }
+
+// Game Over
+void Game::reset() {
+    // Reset Vars
+    score = 0;
+    sacrifice_mode = false;
+    spawn_timer = 0.0f;
+    num_sacrifice = 0;
+    has_sacrifice = false;
+
+    // Reset Grid
+    m_grid.reset();
+
+    // Reset Spawner
+    m_spawner.reset();
+
+    m_hotbar.clearAll();
+    m_hotbar.setSlot(0, 1);
+
+    game_over = false;
+}
+
+void Game::removeTiles(int amt) {
+    std::vector<Coord> cleared;
+
+    for (int i = 0; i < amt; i++) {
+        int q = GetRandomValue(-3, 3);
+        int r = GetRandomValue(-3, 3);
+        Coord new_coord = { q, r };
+
+        if (std::find(cleared.begin(), cleared.end(), new_coord) == cleared.end()) {
+            cleared.push_back(new_coord);
+            m_grid.setTile(q, r, 0);
+        }
+    }
+
+    game_over = false;
+}
+
 
 // Private
 void Game::shiftHotbar() {

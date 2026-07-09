@@ -16,7 +16,9 @@ public:
     void drawHotbar() const;
 
     void setSlot(int slot_index, int atomic_number);
+
     void clearSlot(int slot_index);
+    void clearAll();
 
     bool isSlotOccupied(int slot_index) const;
 

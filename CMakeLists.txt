@@ -41,6 +41,10 @@ set(SOURCES
         src/AssetManager/AssetManager.cpp
         src/Game/Spawner.h
         src/Game/Spawner.cpp
+        src/GameOver/GameOver.h
+        src/GameOver/GameOver.cpp
+        src/UI/Button/Button.h
+        src/UI/Button/Button.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)
@@ -74,9 +78,6 @@ if ("${PLATFORM}" STREQUAL "Web")
     target_link_options(${PROJECT_NAME} PUBLIC
             -sUSE_GLFW=3
             --preload-file resources
-            --shell-file ${CMAKE_SOURCE_DIR}/src/shell.html
-            -s ASSERTATIONS=0
-            -s EXIT_RUNTIME=0
     )
 endif()
 

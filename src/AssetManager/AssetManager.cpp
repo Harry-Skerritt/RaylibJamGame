@@ -5,3 +5,4 @@
 #include "AssetManager.h"
 
 std::map<std::string, Font> AssetManager::fonts;
+std::map<std::string, Texture> AssetManager::textures;

@@ -6,6 +6,7 @@
 #define GAMESTATE_H
 #include "../Menu/Menu.h"
 #include "../Game/Game.h"
+#include "../GameOver/GameOver.h"
 
 enum class State { MENU, PLAYING, GAMEOVER };
 
@@ -17,6 +18,7 @@ public:
 
     Menu menu;
     Game game;
+    GameOver game_over;
 
     void update();
     void draw();

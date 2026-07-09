@@ -4,7 +4,7 @@
 
 #ifndef SPAWNER_H
 #define SPAWNER_H
-
+#include <algorithm>
 
 
 class Spawner {
@@ -12,10 +12,12 @@ public:
     Spawner();
     ~Spawner();
 
-    int spawnRandomElement() const;
+    [[nodiscard]] int spawnRandomElement() const;
 
-    int getMaxAtomicNumber() { return max_atomic_number; }
+    [[nodiscard]] int getMaxAtomicNumber() const { return max_atomic_number; }
     void setMaxAtomicNumber(int max);
+
+    void reset() { max_atomic_number = 1; }
 private:
     int max_atomic_number = 1;
 };

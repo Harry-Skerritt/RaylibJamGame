@@ -4,7 +4,10 @@
 
 #include "GameState.h"
 
-GameState::GameState() : menu(), game() {}
+#include <iostream>
+#include <__ostream/basic_ostream.h>
+
+GameState::GameState() : menu(), game(), game_over() {}
 
 void GameState::update() {
     if (current_state == State::MENU) {
@@ -15,8 +18,31 @@ void GameState::update() {
 
     } else if (current_state == State::PLAYING) {
         game.update();
-    } else if (current_state == State::GAMEOVER) {
 
+        if (game.isGameOver()) {
+            game_over.init(&game);
+            current_state = State::GAMEOVER;
+        }
+    } else if (current_state == State::GAMEOVER) {
+        game_over.update();
+
+        int result_state = game_over.getResultState();
+        switch (result_state) {
+            case(0):
+                game.reset();
+                current_state = State::MENU;
+                break;
+
+            case(1):
+                game.reset();
+                current_state = State::PLAYING;
+                break;
+
+            case(2):
+                game.removeTiles(game.sacrificeCount());
+                current_state = State::PLAYING;
+                break;
+        }
     }
 }
 
@@ -26,7 +52,7 @@ void GameState::draw() {
     } else if (current_state == State::PLAYING) {
         game.draw();
     } else if (current_state == State::GAMEOVER) {
-
+        game_over.draw();
     }
 }
 

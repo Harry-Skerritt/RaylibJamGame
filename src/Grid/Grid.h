@@ -26,6 +26,11 @@ public:
 
     float getHexSize() const { return hex_size; }
 
+    int getEmptyTiles() const;
+
+
+    void reset();
+
 private:
     Tile* hovered_tile = nullptr;
     std::vector<Tile> tiles;
