@@ -111,17 +111,19 @@ void Game::drawUI() {
 
     std::string score_str = "Score: " + std::to_string(score);
     std::string highest_str = "Highest Atomic No: " + std::to_string(m_spawner.getMaxAtomicNumber());
-    std::string sacrifice_count = "Sacrifice Available (" + std::to_string(num_sacrifice) + ") [E]";
-    std::string sacrifice_str = has_sacrifice ?  sacrifice_count : "Sacrifice Unavailable";
 
     auto drawLine = [&](const std::string& text, Color color) {
         DrawTextEx(ui_font, text.c_str(), { (float)text_gap, current_y }, font_size, 2, color);
         current_y -= (font_size + text_gap);
     };
 
-    drawLine(sacrifice_str, has_sacrifice ? GREEN : RED);
     drawLine(highest_str, RAYWHITE);
     drawLine(score_str, RAYWHITE);
+
+    Vector2 sacrifice_pos = sacrifice_mode ? (Vector2){ 50.0f, 80.0f } : (Vector2){ 50.0f, 50.0f };
+
+    sacrifice_icon.draw(
+        sacrifice_pos, AssetManager::GetTexture("sacrifice-icon"), "E", num_sacrifice, (has_sacrifice));
 
     // Draw Sacrifice Stuff
     if (sacrifice_mode) {

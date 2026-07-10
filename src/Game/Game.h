@@ -7,6 +7,7 @@
 #include "Spawner.h"
 #include "../Grid/Grid.h"
 #include "../UI/Hotbar/Hotbar.h"
+#include "../UI/Icon/Icon.h"
 #include <queue>
 
 class Game {
@@ -16,7 +17,6 @@ public:
 
     void update();
     void draw();
-
 
     void drawTilePlacement();
     void drawUI();
@@ -48,6 +48,9 @@ private:
 
     Vector2 grid_pos = { 360.0f, 310.0f };
     Vector2 grid_sacrifice_pos = { 360.0f, 360.0f };
+
+    // UI
+    Icon sacrifice_icon;
 
     // Placing
     bool is_placing = false;

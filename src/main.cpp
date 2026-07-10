@@ -37,10 +37,12 @@ int main() {
     AssetManager::LoadFontKey("iceland-80", "resources/fonts/Iceland/Iceland-Regular.ttf", 80);
     AssetManager::LoadFontKey("iceland-50", "resources/fonts/Iceland/Iceland-Regular.ttf", 50);
     AssetManager::LoadFontKey("iceland-40", "resources/fonts/Iceland/Iceland-Regular.ttf", 40);
+    AssetManager::LoadFontKey("iceland-25", "resources/fonts/Iceland/Iceland-Regular.ttf", 25);
 
     // Load Textures
     AssetManager::LoadTextureKey("atom", "resources/textures/atom.png");
     AssetManager::LoadTextureKey("small-btn", "resources/textures/small-btn-background.png");
+    AssetManager::LoadTextureKey("sacrifice-icon", "resources/textures/sacrifice-icon.png");
 
     // Sounds
     AssetManager::LoadSoundKey("tile-place", "resources/sounds/tile_place.ogg");

@@ -51,6 +51,8 @@ set(SOURCES
         src/Progress/Progress.cpp
         src/UI/TableElement/TableElement.h
         src/UI/TableElement/TableElement.cpp
+        src/UI/Icon/Icon.h
+        src/UI/Icon/Icon.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)

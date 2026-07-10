@@ -31,7 +31,7 @@ void Tile::draw(
     pos = { x + centre_x, y + centre_y };
 
     Element e = PeriodicTable[atomic_number];
-    Color fill = is_volatile ? RED : getColourForType(e.type);
+    Color fill = is_volatile ? Colours::VOLATILE_TILE : getColourForType(e.type);
 
     DrawPoly(pos, 6, draw_size, 0, fill);
     DrawPolyLinesEx(pos, 6, draw_size, 0, 3.0f, Colours::HEX_BORDER);
@@ -93,7 +93,7 @@ void Tile::drawHealthBar(const Vector2 pos, const float current_health, float ma
 
 Color Tile::getContrastColor(Color c) {
     float luminance = (0.299f * c.r + 0.587f * c.g + 0.114f * c.b) / 255.0f;
-    return (luminance > 0.5f) ? DARKGRAY : (Color){210, 210, 210, 255 };
+    return (luminance > 0.5f) ? DARKGRAY : Colours::WHITE_TEXT;
 }
 
 bool Tile::isValidPlacement() {
