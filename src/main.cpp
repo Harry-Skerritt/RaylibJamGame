@@ -28,8 +28,10 @@ int main() {
 
     // Load Fonts
     AssetManager::LoadFontKey("itim-40", "resources/fonts/Itim/Itim-Regular.ttf", 40);
+    AssetManager::LoadFontKey("itim-30", "resources/fonts/Itim/Itim-Regular.ttf", 30);
     AssetManager::LoadFontKey("itim-25", "resources/fonts/Itim/Itim-Regular.ttf", 25);
     AssetManager::LoadFontKey("itim-20", "resources/fonts/Itim/Itim-Regular.ttf", 20);
+    AssetManager::LoadFontKey("itim-15", "resources/fonts/Itim/Itim-Regular.ttf", 15);
 
     AssetManager::LoadFontKey("iceland-100", "resources/fonts/Iceland/Iceland-Regular.ttf", 100);
     AssetManager::LoadFontKey("iceland-80", "resources/fonts/Iceland/Iceland-Regular.ttf", 80);

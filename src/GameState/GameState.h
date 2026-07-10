@@ -8,8 +8,9 @@
 #include "../Game/Game.h"
 #include "../GameOver/GameOver.h"
 #include "../GameWin/GameWin.h"
+#include "../Progress/Progress.h"
 
-enum class State { MENU, PLAYING, GAMEOVER, GAMEWIN };
+enum class State { MENU, PLAYING, GAME_OVER, GAME_WIN, PROGRESS };
 
 class GameState {
 public:
@@ -21,6 +22,7 @@ public:
     Game game;
     GameOver game_over;
     GameWin game_win;
+    Progress progress;
 
     Music* curr_music = nullptr;
 

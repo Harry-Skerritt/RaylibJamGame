@@ -47,6 +47,10 @@ set(SOURCES
         src/UI/Button/Button.cpp
         src/GameWin/GameWin.h
         src/GameWin/GameWin.cpp
+        src/Progress/Progress.h
+        src/Progress/Progress.cpp
+        src/UI/TableElement/TableElement.h
+        src/UI/TableElement/TableElement.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)

@@ -10,7 +10,7 @@
 
 enum ElementType {
     NONE, OTHER_NON_METAL, NOBLE_GAS, ALKALI_METAL,
-     ALKALI_EARTH_METAL, METALLOID, OTHER_METAL,
+     ALKALI_EARTH_METAL, OTHER_METAL,
      TRANSITION_METAL, LANTHANIDE, ACTINOID, HALOGEN
 };
 
@@ -23,32 +23,34 @@ struct Element {
 
 static const Element PeriodicTable[] = {
     { "", "", NONE }, // 0
-    { "H", "Hydrogen", OTHER_NON_METAL }, { "He", "Helium", NOBLE_GAS },
-    { "Li", "Lithium", ALKALI_METAL }, { "Be", "Beryllium", ALKALI_EARTH_METAL },
-    { "B", "Boron", METALLOID }, { "C", "Carbon", OTHER_NON_METAL },
+    { "H", "Hydrogen", OTHER_NON_METAL },
+    { "He", "Helium", NOBLE_GAS },
+    { "Li", "Lithium", ALKALI_METAL },
+    { "Be", "Beryllium", ALKALI_EARTH_METAL },
+    { "B", "Boron", OTHER_NON_METAL }, { "C", "Carbon", OTHER_NON_METAL },
     { "N", "Nitrogen", OTHER_NON_METAL }, { "O", "Oxygen", OTHER_NON_METAL },
     { "F", "Fluorine", HALOGEN }, { "Ne", "Neon", NOBLE_GAS },
     { "Na", "Sodium", ALKALI_METAL }, { "Mg", "Magnesium", ALKALI_EARTH_METAL },
-    { "Al", "Aluminium", OTHER_METAL }, { "Si", "Silicon", METALLOID },
+    { "Al", "Aluminium", OTHER_METAL }, { "Si", "Silicon", OTHER_NON_METAL },
     { "P", "Phosphorus", OTHER_NON_METAL }, { "S", "Sulfur", OTHER_NON_METAL },
     { "Cl", "Chlorine", HALOGEN }, { "Ar", "Argon", NOBLE_GAS },
     { "K", "Potassium", ALKALI_METAL }, { "Ca", "Calcium", ALKALI_EARTH_METAL },
-    { "Sc", "Scandium", TRANSITION_METAL }, { "Ti", "Titanium", TRANSITION_METAL },
+    { "Sc", "Scandium", LANTHANIDE }, { "Ti", "Titanium", TRANSITION_METAL },
     { "V", "Vanadium", TRANSITION_METAL }, { "Cr", "Chromium", TRANSITION_METAL },
     { "Mn", "Manganese", TRANSITION_METAL }, { "Fe", "Iron", TRANSITION_METAL },
     { "Co", "Cobalt", TRANSITION_METAL }, { "Ni", "Nickel", TRANSITION_METAL },
     { "Cu", "Copper", TRANSITION_METAL }, { "Zn", "Zinc", TRANSITION_METAL },
-    { "Ga", "Gallium", OTHER_METAL }, { "Ge", "Germanium", METALLOID },
-    { "As", "Arsenic", METALLOID }, { "Se", "Selenium", OTHER_NON_METAL },
+    { "Ga", "Gallium", OTHER_METAL }, { "Ge", "Germanium", OTHER_METAL },
+    { "As", "Arsenic", OTHER_NON_METAL }, { "Se", "Selenium", OTHER_NON_METAL },
     { "Br", "Bromine", HALOGEN }, { "Kr", "Krypton", NOBLE_GAS },
     { "Rb", "Rubidium", ALKALI_METAL }, { "Sr", "Strontium", ALKALI_EARTH_METAL },
-    { "Y", "Yttrium", TRANSITION_METAL }, { "Zr", "Zirconium", TRANSITION_METAL },
+    { "Y", "Yttrium", LANTHANIDE }, { "Zr", "Zirconium", TRANSITION_METAL },
     { "Nb", "Niobium", TRANSITION_METAL }, { "Mo", "Molybdenum", TRANSITION_METAL },
     { "Tc", "Technetium", TRANSITION_METAL }, { "Ru", "Ruthenium", TRANSITION_METAL },
     { "Rh", "Rhodium", TRANSITION_METAL }, { "Pd", "Palladium", TRANSITION_METAL },
     { "Ag", "Silver", TRANSITION_METAL }, { "Cd", "Cadmium", TRANSITION_METAL },
     { "In", "Indium", OTHER_METAL }, { "Sn", "Tin", OTHER_METAL },
-    { "Sb", "Antimony", METALLOID }, { "Te", "Tellurium", METALLOID },
+    { "Sb", "Antimony", OTHER_METAL }, { "Te", "Tellurium", OTHER_NON_METAL },
     { "I", "Iodine", HALOGEN }, { "Xe", "Xenon", NOBLE_GAS },
     { "Cs", "Cesium", ALKALI_METAL }, { "Ba", "Barium", ALKALI_EARTH_METAL },
     { "La", "Lanthanum", LANTHANIDE }, { "Ce", "Cerium", LANTHANIDE },
@@ -64,7 +66,7 @@ static const Element PeriodicTable[] = {
     { "Ir", "Iridium", TRANSITION_METAL }, { "Pt", "Platinum", TRANSITION_METAL },
     { "Au", "Gold", TRANSITION_METAL }, { "Hg", "Mercury", TRANSITION_METAL },
     { "Tl", "Thallium", OTHER_METAL }, { "Pb", "Lead", OTHER_METAL },
-    { "Bi", "Bismuth", OTHER_METAL }, { "Po", "Polonium", METALLOID },
+    { "Bi", "Bismuth", OTHER_METAL }, { "Po", "Polonium", OTHER_METAL },
     { "At", "Astatine", HALOGEN }, { "Rn", "Radon", NOBLE_GAS },
     { "Fr", "Francium", ALKALI_METAL }, { "Ra", "Radium", ALKALI_EARTH_METAL },
     { "Ac", "Actinium", ACTINOID }, { "Th", "Thorium", ACTINOID },
@@ -94,7 +96,6 @@ inline Color getColourForType(ElementType type) {
         case OTHER_METAL:         return (Color){ 200, 200, 200, 255 }; // Steel Grey
         case LANTHANIDE:          return (Color){ 255, 182, 193, 255 }; // Light Pink
         case ACTINOID:            return (Color){ 238, 130, 238, 255 }; // Violet
-        case METALLOID:           return (Color){ 144, 238, 144, 255 }; // Light Green
         case OTHER_NON_METAL:     return (Color){ 173, 216, 230, 255 }; // Sky Blue
         case HALOGEN:             return (Color){ 255, 255, 150, 255 }; // Pale Yellow
         case NOBLE_GAS:           return (Color){ 180, 255, 255, 255 }; // Cyan

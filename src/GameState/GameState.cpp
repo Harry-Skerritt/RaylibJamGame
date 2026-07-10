@@ -9,7 +9,7 @@
 
 #include "../AssetManager/AssetManager.h"
 
-GameState::GameState() : menu(), game(), game_over(), curr_music() {
+GameState::GameState() : menu(), game(), game_over(), curr_music(), progress() {
     swapMusic("menu-music");
 }
 
@@ -34,15 +34,20 @@ void GameState::update() {
 
         if (game.isGameOver()) {
             game_over.init(&game);
-            current_state = State::GAMEOVER;
+            current_state = State::GAME_OVER;
         }
 
         if (game.isGameWon()) {
             game_win.init();
-            current_state = State::GAMEWIN;
+            current_state = State::GAME_WIN;
+        }
+
+        if (game.goToProgress()) {
+            progress.init(game.getMaxAtomicNumber());
+            current_state = State::PROGRESS;
         }
     }
-    else if (current_state == State::GAMEOVER) {
+    else if (current_state == State::GAME_OVER) {
         game_over.update();
 
         int result_state = game_over.getResultState();
@@ -67,7 +72,7 @@ void GameState::update() {
                 break;
         }
     }
-    else if (current_state == State::GAMEWIN) {
+    else if (current_state == State::GAME_WIN) {
         game_win.update();
 
         int result_state = game_win.getResultState();
@@ -86,6 +91,12 @@ void GameState::update() {
                 break;
         }
     }
+    else if (current_state == State::PROGRESS) {
+        if (progress.transitionToGame()) {
+            current_state = State::PLAYING;
+        }
+        progress.update();
+    }
 }
 
 void GameState::draw() {
@@ -95,11 +106,14 @@ void GameState::draw() {
     else if (current_state == State::PLAYING) {
         game.draw();
     }
-    else if (current_state == State::GAMEOVER) {
+    else if (current_state == State::GAME_OVER) {
         game_over.draw();
     }
-    else if (current_state == State::GAMEWIN) {
+    else if (current_state == State::GAME_WIN) {
         game_win.draw();
+    }
+    else if (current_state == State::PROGRESS) {
+        progress.draw();
     }
 }
 
@@ -113,6 +127,6 @@ void GameState::swapMusic(const std::string &new_music) {
     if (curr_music != nullptr) StopMusicStream(*curr_music);
     curr_music = &AssetManager::GetMusic(new_music);
     PlayMusicStream(*curr_music);
-    SetMusicVolume(*curr_music, 0.3f);
+    SetMusicVolume(*curr_music, 0.0f); // 0.3f
 }
 

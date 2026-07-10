@@ -26,9 +26,10 @@ public:
 
     [[nodiscard]] bool isPlacing() const { return is_placing; }
 
-    // Game Win / Lose
+    // Game Win / Lose / Progress
     [[nodiscard]] bool isGameOver() const { return game_over; }
     [[nodiscard]] bool isGameWon() const { return game_won; }
+    [[nodiscard]] bool goToProgress() const { return go_to_progress; }
 
     [[nodiscard]] int getScore() const { return score; }
     [[nodiscard]] int getUnlocked() const { return m_spawner.getMaxAtomicNumber(); }
@@ -37,6 +38,8 @@ public:
     // Reset
     void reset();
     void removeTiles(int amt);
+
+    int getMaxAtomicNumber() const { return m_spawner.getMaxAtomicNumber(); }
 
 private:
     Grid m_grid;
@@ -66,6 +69,7 @@ private:
     // States
     bool game_over = false;
     bool game_won = false;
+    bool go_to_progress = false;
 
     // Catalyst
     float pulse_radius = 0.0f;

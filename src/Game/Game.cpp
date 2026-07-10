@@ -24,6 +24,12 @@ Game::~Game() {
 void Game::update() {
     m_grid.update();
 
+    // Progress Screen
+    go_to_progress = false;
+    if (IsKeyPressed(KEY_TAB)) {
+        go_to_progress = true;
+    }
+
     // Auto Generate Elements
     spawn_timer += GetFrameTime();
     if (spawn_timer >= spawn_interval) {
