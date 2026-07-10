@@ -12,7 +12,7 @@ struct FloatingText {
     std::string text;
     Vector2 pos;
     float alpha = 1.0f;
-    float lifetime = 1.5f;
+    float lifetime = 2.0f;
 };
 
 class FloatingTextManager {
