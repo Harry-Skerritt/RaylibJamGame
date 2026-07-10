@@ -100,11 +100,11 @@ bool Tile::isValidPlacement() {
     return atomic_number <= 0;
 }
 
-void Tile::drawTempTile(Vector2 screenPos, float hex_size, int atomic_number) {
+void Tile::drawTempTile(Vector2 screenPos, float hex_size, int atomic_number, bool is_dim) {
     Element e = PeriodicTable[atomic_number];
     Color fill = getColourForType(e.type);
 
-    DrawPoly(screenPos, 6, hex_size, 0, Fade(fill, 0.5f));
+    DrawPoly(screenPos, 6, hex_size, 0, is_dim ? Fade(fill, 0.5f) : fill);
     DrawPolyLinesEx(screenPos, 6, hex_size, 0, 3.0f, Colours::HEX_BORDER);
 
     // Element

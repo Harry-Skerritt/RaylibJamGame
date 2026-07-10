@@ -6,6 +6,7 @@
 
 #include "../../AssetManager/AssetManager.h"
 #include "../../Grid/Tile.h"
+#include "../../utils/Colours.h"
 
 void Hotbar::drawHotbar() const {
     constexpr float slot_size = 80;
@@ -47,7 +48,7 @@ void Hotbar::drawHotbar() const {
 
         Color fill = (slots[i].is_occupied) ? DARKGRAY : Fade(BLACK, 0.1f);
         DrawRectangleRounded(slot_rect, 0.1f, 20, fill);
-        DrawRectangleRoundedLinesEx(slot_rect, 0.1f, 20, 2, BLACK);
+        DrawRectangleRoundedLinesEx(slot_rect, 0.1f, 20, (i == 0) ? 4 : 2, (i == 0) ? Colours::MAIN_CYAN : BLACK);
 
         if (slots[i].is_occupied) {
             const Vector2 centre = {
@@ -57,7 +58,7 @@ void Hotbar::drawHotbar() const {
 
             if (slots[i].atomic_number > 0) {
                 Tile temp_tile(0, 0, slots[i].atomic_number, centre, 3);
-                temp_tile.drawTempTile(centre, h_slot_size - 5, slots[i].atomic_number);
+                temp_tile.drawTempTile(centre, h_slot_size - 5, slots[i].atomic_number,  (i != 0));
             }
         }
     }

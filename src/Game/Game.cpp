@@ -62,7 +62,7 @@ void Game::drawUI() {
     // Draw Main UI
     m_ui.draw(
         { 10, (float)GetScreenHeight() - 90 },
-        { 250, 80 },
+        { 265, 80 },
         score, getMaxAtomicNumber()
     );
 

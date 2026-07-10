@@ -5,6 +5,7 @@
 #include "UINum.h"
 #include "../../AssetManager/AssetManager.h"
 #include "../../utils/Colours.h"
+#include "../../utils/Element.h"
 
 void UINum::draw(Vector2 pos, Vector2 size, int score, int max_atomic_num) {
     // Draw UI Box
@@ -16,14 +17,16 @@ void UINum::draw(Vector2 pos, Vector2 size, int score, int max_atomic_num) {
     float start_x = hud_bg.x + 15;
     float current_y = hud_bg.y + 10;
 
+
     auto drawLine = [&](const std::string& label, const std::string& value, Color color) {
         DrawTextEx(ui_font, label.c_str(), { start_x, current_y }, 25, 2, Colours::WHITE_TEXT);
         DrawTextEx(ui_font, value.c_str(), { start_x + 160, current_y }, 25, 2, color);
         current_y += 30;
     };
 
+    std::string progress_str = std::to_string(max_atomic_num) + "/" + std::to_string(ELEMENT_COUNT);
     drawLine("Score:", std::to_string(score), Colours::MAIN_CYAN);
-    drawLine("Max Atomic:", std::to_string(max_atomic_num), GOLD);
+    drawLine("Max Atomic #:", progress_str, GOLD);
 
 
 }

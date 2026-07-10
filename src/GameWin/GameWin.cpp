@@ -24,7 +24,6 @@ void GameWin::init() {
 
 
     result_state = -1;
-    btn_sound = AssetManager::GetSound("btn-click");
 }
 
 void GameWin::update() {

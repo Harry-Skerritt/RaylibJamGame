@@ -21,7 +21,7 @@ public:
     bool isValidPlacement();
 
     void draw(float hex_size, float centre_x, float centre_y, bool is_hovered, bool is_placing);
-    void drawTempTile(Vector2 screenPos, float hex_size, int atomic_number);
+    void drawTempTile(Vector2 screenPos, float hex_size, int atomic_number, bool is_dim = true);
 
     void setStability(float stability) { this->stability = stability; }
     void changeStability(float stability) { this->stability += stability; }
