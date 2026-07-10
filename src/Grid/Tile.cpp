@@ -24,13 +24,14 @@ void Tile::draw(
     }
 
     float draw_size = (hex_size - 2) * pulse;
+    float inner_draw_size = (hex_size - 8) * pulse;
 
     float x = hex_size * (3.0f / 2.0f * q);
     float y = hex_size * (sqrt(3.0f) * (r + q / 2.0f));
     pos = { x + centre_x, y + centre_y };
 
     Element e = PeriodicTable[atomic_number];
-    Color fill = is_volatile ? RED : Fade(getColourForType(e.type), stability);
+    Color fill = is_volatile ? RED : getColourForType(e.type);
 
     DrawPoly(pos, 6, draw_size, 0, fill);
     DrawPolyLinesEx(pos, 6, draw_size, 0, 3.0f, Colours::HEX_BORDER);
@@ -48,7 +49,6 @@ void Tile::draw(
     if (is_highlighted) DrawPolyLinesEx(pos, 6, hex_size - 2, 0, 5.0f, RED);
 
     if (atomic_number > 0) {
-        // Normal Element
         auto symbol_font = AssetManager::GetFont("itim-40");
         auto num_font = AssetManager::GetFont("itim-20");
 
@@ -59,11 +59,38 @@ void Tile::draw(
             symbol_font, e.symbol,
             {pos.x - symbol_width / 2, pos.y - 30}, 40, 2, DARKGRAY);
 
+        if (!is_volatile) drawHealthBar({pos.x, pos.y + 6}, stability, 1.0f);
+
         DrawTextEx(
             num_font, std::to_string(atomic_number).c_str(),
             {pos.x - num_width / 2, pos.y + 15}, 20, 2, GRAY);
+
+        DrawPolyLinesEx(pos, 6, inner_draw_size, 0, 3.0f, DARKGRAY);
     }
 }
+
+void Tile::drawHealthBar(const Vector2 pos, const float current_health, float max_health) {
+    constexpr float max_width = 50.0f;
+    constexpr int x_diff = 25;
+    constexpr int y_diff = 2;
+
+    float health_ratio = (max_health > 0) ? (current_health / max_health) : 0;
+    if (health_ratio < 0) health_ratio = 0;
+    if (health_ratio > 1) health_ratio = 1;
+
+    float current_width = max_width * health_ratio;
+
+    DrawRectangleGradientH(
+        static_cast<int>(pos.x) - x_diff, static_cast<int>(pos.y) + y_diff, static_cast<int>(current_width), 6,
+        (Color){212, 0, 0, 255}, (Color){51, 255, 0 ,255});
+
+    DrawRectangle(static_cast<int>(pos.x) - x_diff, static_cast<int>(pos.y) + y_diff, static_cast<int>(max_width), 6, GRAY);
+
+    DrawRectangleGradientH(
+        static_cast<int>(pos.x) - x_diff, static_cast<int>(pos.y) + y_diff, static_cast<int>(current_width), 6,
+        (Color){212, 0, 0, 255}, (Color){51, 255, 0 ,255});
+}
+
 
 bool Tile::isValidPlacement() {
     return atomic_number <= 0;

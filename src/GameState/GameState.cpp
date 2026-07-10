@@ -127,6 +127,6 @@ void GameState::swapMusic(const std::string &new_music) {
     if (curr_music != nullptr) StopMusicStream(*curr_music);
     curr_music = &AssetManager::GetMusic(new_music);
     PlayMusicStream(*curr_music);
-    SetMusicVolume(*curr_music, 0.0f); // 0.3f
+    SetMusicVolume(*curr_music, 0.3f); // 0.3f
 }
 

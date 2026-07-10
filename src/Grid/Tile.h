@@ -30,6 +30,9 @@ public:
     void minusPass() { stability_passes -= 1; }
     [[nodiscard]] int getStabilityPasses() const { return stability_passes; }
     [[nodiscard]] bool isStable() const { return stability_passes != 0; };
+
+private:
+    void drawHealthBar(Vector2 pos, float current_health, float max_health);
 };
 
 
