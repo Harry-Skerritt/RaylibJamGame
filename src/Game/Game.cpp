@@ -73,6 +73,8 @@ void Game::update() {
         }
     }
 
+    text_manager.update(GetFrameTime());
+
     // Game Lost
     if (m_grid.getEmptyTiles() == 0) {
         PlaySound(AssetManager::GetSound("game-over"));
@@ -101,6 +103,7 @@ void Game::draw() {
     }
 
     drawTilePlacement();
+    text_manager.draw(AssetManager::GetFont("itim-25"));
 }
 
 void Game::drawUI() {
@@ -167,6 +170,7 @@ void Game::performMergeCheck(const Tile* tile) {
     const int upgradeAmount = static_cast<int>(matches.size());
     increaseTileNumber(q, r, upgradeAmount);
     score += (10 * upgradeAmount);
+    text_manager.add("+" + std::to_string(10 * upgradeAmount), tile->pos);
 
     for (const auto* neighbor : matches) {
         PlaySound(AssetManager::GetSound("merge"));
@@ -291,6 +295,7 @@ void Game::placeTile(Tile* tile) {
 
     // Score + Hotbar
     score += m_hotbar.getSlot(0);
+    text_manager.add("+" + std::to_string(m_hotbar.getSlot(0)), tile->pos);
     shiftHotbar();
 
     // Merging

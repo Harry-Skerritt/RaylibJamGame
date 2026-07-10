@@ -55,6 +55,8 @@ set(SOURCES
         src/UI/Icon/Icon.cpp
         src/UI/UINum/UINum.h
         src/UI/UINum/UINum.cpp
+        src/UI/FloatingText/FloatingTextManager.h
+        src/UI/FloatingText/FloatingTextManager.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)

@@ -10,6 +10,7 @@
 #include "../UI/Icon/Icon.h"
 #include <queue>
 
+#include "../UI/FloatingText/FloatingTextManager.h"
 #include "../UI/UINum/UINum.h"
 
 class Game {
@@ -48,6 +49,7 @@ private:
     Hotbar m_hotbar;
     UINum m_ui;
     Spawner m_spawner;
+    FloatingTextManager text_manager;
 
     Vector2 grid_pos = { 360.0f, 310.0f };
     Vector2 grid_sacrifice_pos = { 360.0f, 360.0f };
