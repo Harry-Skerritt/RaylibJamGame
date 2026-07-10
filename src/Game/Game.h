@@ -10,6 +10,8 @@
 #include "../UI/Icon/Icon.h"
 #include <queue>
 
+#include "../UI/UINum/UINum.h"
+
 class Game {
 public:
     Game();
@@ -44,6 +46,7 @@ public:
 private:
     Grid m_grid;
     Hotbar m_hotbar;
+    UINum m_ui;
     Spawner m_spawner;
 
     Vector2 grid_pos = { 360.0f, 310.0f };

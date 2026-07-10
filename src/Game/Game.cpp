@@ -24,6 +24,11 @@ Game::~Game() {
 void Game::update() {
     m_grid.update();
 
+    if (IsKeyPressed(KEY_S)) {
+        num_sacrifice++;
+        has_sacrifice = (num_sacrifice >= 1);
+    }
+
     // Progress Screen
     go_to_progress = false;
     if (IsKeyPressed(KEY_TAB)) {
@@ -103,38 +108,32 @@ void Game::drawUI() {
     if (!sacrifice_mode)
         m_hotbar.drawHotbar();
 
-    // Draw 'Stats'
-    auto ui_font = AssetManager::GetFont("itim-25");
-    const int font_size = 25;
-    const int text_gap = 10;
-    float current_y = (float)GetScreenHeight() - font_size - text_gap;
-
-    std::string score_str = "Score: " + std::to_string(score);
-    std::string highest_str = "Highest Atomic No: " + std::to_string(m_spawner.getMaxAtomicNumber());
-
-    auto drawLine = [&](const std::string& text, Color color) {
-        DrawTextEx(ui_font, text.c_str(), { (float)text_gap, current_y }, font_size, 2, color);
-        current_y -= (font_size + text_gap);
-    };
-
-    drawLine(highest_str, RAYWHITE);
-    drawLine(score_str, RAYWHITE);
-
+    // Draw Sacrifice Icon
     Vector2 sacrifice_pos = sacrifice_mode ? (Vector2){ 50.0f, 80.0f } : (Vector2){ 50.0f, 50.0f };
-
     sacrifice_icon.draw(
         sacrifice_pos, AssetManager::GetTexture("sacrifice-icon"), "E", num_sacrifice, (has_sacrifice));
 
-    // Draw Sacrifice Stuff
+    m_ui.draw(
+        { 10, (float)GetScreenHeight() - 90 },
+        { 250, 80 },
+        score, getMaxAtomicNumber()
+    );
+
+
+    // Draw Sacrifice Mode Stuff
     if (sacrifice_mode) {
         auto sm_font = AssetManager::GetFont("itim-40");
         auto sm_x = Utils::getCentredTextPosEx("SACRIFICE_MODE", 40, &sm_font, 2);
+        float pulse = (std::sin(GetTime() * 4.0f) * 0.5f) + 0.5f;
 
         Rectangle sm_background = {0, 0, (float)GetScreenWidth(), 100 };
 
         DrawRectangleGradientEx(sm_background, BLACK, Fade(BLACK, 0.0f), Fade(BLACK, 0.0f), BLACK);
 
         DrawTextEx(sm_font, "SACRIFICE MODE", { (float)sm_x, 20 }, 40, 2, RED);
+
+        DrawRectangleLinesEx({0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()},
+                            8, Fade(RED, pulse));
     }
 }
 

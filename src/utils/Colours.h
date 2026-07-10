@@ -16,6 +16,8 @@ namespace Colours {
 
     constexpr Color VOLATILE_TILE = { 220, 34, 130, 255 };
 
+    constexpr Color MAIN_CYAN = { 0, 251, 255, 255 };
+
 }
 
 #endif //COLOURS_H∂

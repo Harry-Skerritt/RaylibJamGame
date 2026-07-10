@@ -27,7 +27,8 @@ void Hotbar::drawHotbar() const {
         static_cast<float>(slot_size) + background_padding_y,
     };
 
-    DrawRectangleRounded(background_rect, 0.2f, 20, Fade(BLACK, 0.2f));
+    DrawRectangleRounded(background_rect, 0.1f, 20, Fade(BLACK, 0.4f));
+    DrawRectangleRoundedLines(background_rect, 0.1f, 20, Fade(GRAY, 0.5f));
 
     auto font = AssetManager::GetFont("itim-20");
     DrawTextEx(font, "Next Elements",

@@ -53,6 +53,8 @@ set(SOURCES
         src/UI/TableElement/TableElement.cpp
         src/UI/Icon/Icon.h
         src/UI/Icon/Icon.cpp
+        src/UI/UINum/UINum.h
+        src/UI/UINum/UINum.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)
