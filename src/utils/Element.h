@@ -90,15 +90,15 @@ static constexpr int ELEMENT_COUNT = std::size(PeriodicTable) - 1;
 
 inline Color getColourForType(ElementType type) {
     switch (type) {
-        case ALKALI_METAL:        return (Color){ 255, 100, 100, 255 }; // Soft Red
-        case ALKALI_EARTH_METAL:  return (Color){ 255, 165, 0, 255 };   // Orange
-        case TRANSITION_METAL:    return (Color){ 255, 215, 0, 255 };   // Gold
-        case OTHER_METAL:         return (Color){ 200, 200, 200, 255 }; // Steel Grey
-        case LANTHANIDE:          return (Color){ 255, 182, 193, 255 }; // Light Pink
-        case ACTINOID:            return (Color){ 238, 130, 238, 255 }; // Violet
-        case OTHER_NON_METAL:     return (Color){ 173, 216, 230, 255 }; // Sky Blue
-        case HALOGEN:             return (Color){ 255, 255, 150, 255 }; // Pale Yellow
-        case NOBLE_GAS:           return (Color){ 180, 255, 255, 255 }; // Cyan
+        case ALKALI_METAL:        return (Color){ 223, 65, 65, 255 }; // Soft Red
+        case ALKALI_EARTH_METAL:  return (Color){ 255, 145, 13, 255 };   // Orange
+        case TRANSITION_METAL:    return (Color){ 236, 215, 55, 255 };   // Gold
+        case OTHER_METAL:         return (Color){ 108, 237, 179, 255 }; // Steel Grey
+        case LANTHANIDE:          return (Color){ 240, 98, 155, 255 }; // Light Pink
+        case ACTINOID:            return (Color){ 165, 66, 185, 255 }; // Violet
+        case OTHER_NON_METAL:     return (Color){ 71, 198, 216, 255 }; // Sky Blue
+        case HALOGEN:             return (Color){ 138, 203, 78, 255 }; // Pale Yellow
+        case NOBLE_GAS:           return (Color){ 216, 222, 52, 255 }; // Cyan
         default:                  return Colours::HEX_BACKGROUND;
     }
 }

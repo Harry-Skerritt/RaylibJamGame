@@ -33,6 +33,7 @@ public:
 
 private:
     void drawHealthBar(Vector2 pos, float current_health, float max_health);
+    Color getContrastColor(Color c);
 };
 
 

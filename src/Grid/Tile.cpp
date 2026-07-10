@@ -57,13 +57,13 @@ void Tile::draw(
 
         DrawTextEx(
             symbol_font, e.symbol,
-            {pos.x - symbol_width / 2, pos.y - 30}, 40, 2, DARKGRAY);
+            {pos.x - symbol_width / 2, pos.y - 30}, 40, 2, getContrastColor(fill));
 
         if (!is_volatile) drawHealthBar({pos.x, pos.y + 6}, stability, 1.0f);
 
         DrawTextEx(
             num_font, std::to_string(atomic_number).c_str(),
-            {pos.x - num_width / 2, pos.y + 15}, 20, 2, GRAY);
+            {pos.x - num_width / 2, pos.y + 15}, 20, 2, getContrastColor(fill));
 
         DrawPolyLinesEx(pos, 6, inner_draw_size, 0, 3.0f, DARKGRAY);
     }
@@ -91,6 +91,10 @@ void Tile::drawHealthBar(const Vector2 pos, const float current_health, float ma
         (Color){212, 0, 0, 255}, (Color){51, 255, 0 ,255});
 }
 
+Color Tile::getContrastColor(Color c) {
+    float luminance = (0.299f * c.r + 0.587f * c.g + 0.114f * c.b) / 255.0f;
+    return (luminance > 0.5f) ? DARKGRAY : (Color){210, 210, 210, 255 };
+}
 
 bool Tile::isValidPlacement() {
     return atomic_number <= 0;
@@ -113,11 +117,11 @@ void Tile::drawTempTile(Vector2 screenPos, float hex_size, int atomic_number) {
 
         DrawTextEx(symbol_font, e.symbol,
         { pos.x - symbol_dims.x / 2.0f, pos.y - symbol_dims.y / 1.2f },
-        40, 2, DARKGRAY);
+        40, 2, getContrastColor(fill));
 
         DrawTextEx(num_font, std::to_string(atomic_number).c_str(),
             { pos.x - num_dims.x / 2.0f, pos.y - num_dims.y / 2.0f + 15 },
-            20, 2, GRAY);
+            20, 2, getContrastColor(fill));
     }
 }
 
