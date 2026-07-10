@@ -5,7 +5,7 @@
 #include "Button.h"
 #include "../../AssetManager/AssetManager.h"
 
-Button::Button(const Texture2D &texture, const Vector2 position, const Vector2 size, char* text, const int frames)
+Button::Button(const Texture2D &texture, const Vector2 position, const Vector2 size, const char* text, const int frames)
     : btn_texture(texture), btn_pos(position), btn_size(size), btn_frames(frames), btn_text(text)
 {
     // Reset
@@ -20,8 +20,10 @@ Button::Button(const Texture2D &texture, const Vector2 position, const Vector2 s
     btn_font = AssetManager::GetFont("iceland-50");
 }
 
-void Button::update() {
+void Button::update(const char* new_text) {
     btn_action = false;
+
+    if (new_text != "") btn_text = new_text;
 
     if (CheckCollisionPointRec(GetMousePosition(), btn_bounds)) {
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) btn_state = 2;

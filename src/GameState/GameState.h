@@ -24,14 +24,9 @@ public:
     GameWin game_win;
     Progress progress;
 
-    Music* curr_music = nullptr;
-
     void update();
     void draw();
     void drawUI();
-
-private:
-    void swapMusic(const std::string &new_music);
 };
 
 #endif //GAMESTATE_H

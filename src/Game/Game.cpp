@@ -9,6 +9,7 @@
 
 #include "../Grid/Tile.h"
 #include "../AssetManager/AssetManager.h"
+#include "../AudioManager/AudioManager.h"
 #include "../utils/Element.h"
 #include "../utils/TextUtils.h"
 
@@ -124,7 +125,7 @@ void Game::checkSacrificeMilestone(const int new_max) {
 
         if (crossed > 0) {
             num_sacrifice += crossed;
-            PlaySound(AssetManager::GetSound("sacrifice-added"));
+            AudioManager::PlaySFX("sacrifice-added");
         }
         current_max = new_max;
     }
@@ -153,7 +154,7 @@ void Game::checkMouse() {
     if (sacrifice_mode) {
         if (tile && tile->atomic_number > 0) {
             m_grid.setTile(tile->q, tile->r, 0);
-            PlaySound(AssetManager::GetSound("tile-remove"));
+            AudioManager::PlaySFX("tile-remove");
         }
         num_sacrifice -= 1;
         if (num_sacrifice <= 0) {
@@ -183,7 +184,7 @@ void Game::placeTile(Tile* tile) {
         }
     }
 
-    PlaySound(AssetManager::GetSound("tile-place"));
+    AudioManager::PlaySFX("tile-place");
 
     // Score + Hotbar
     score += m_hotbar.getSlot(0);
@@ -231,7 +232,7 @@ void Game::performMergeCheck(const Tile* tile) {
     text_manager.add("+" + std::to_string(10 * upgradeAmount), tile->pos);
 
     for (const auto* neighbor : matches) {
-        PlaySound(AssetManager::GetSound("merge"));
+        AudioManager::PlaySFX("merge");
         m_grid.setTile(neighbor->q, neighbor->r, 0);
     }
 
@@ -240,7 +241,7 @@ void Game::performMergeCheck(const Tile* tile) {
 }
 
 void Game::performCatalystExplosion(Tile *tile) {
-    PlaySound(AssetManager::GetSound("catalyst"));
+    AudioManager::PlaySFX("catalyst");
     pulse_origin = tile->pos;
     is_pulsing = true;
     pulse_radius = 0.0f;
@@ -310,19 +311,19 @@ void Game::handleStateTransitions() {
     if (IsKeyPressed(KEY_E)) {
         if (has_sacrifice) {
             sacrifice_mode = !sacrifice_mode;
-            if (sacrifice_mode) PlaySound(AssetManager::GetSound("sacrifice-mode"));
+            if (sacrifice_mode) AudioManager::PlaySFX("sacrifice-mode");
         }
     }
 
     // Game Lost
     if (m_grid.getEmptyTiles() == 0) {
-        PlaySound(AssetManager::GetSound("game-over"));
+        AudioManager::PlaySFX("game-over");
         game_over = true;
     }
 
     // Game Won
     if (m_spawner.getMaxAtomicNumber() == ELEMENT_COUNT) {
-        PlaySound(AssetManager::GetSound("game-win"));
+        AudioManager::PlaySFX("game-win");
         game_won = true;
     }
 }

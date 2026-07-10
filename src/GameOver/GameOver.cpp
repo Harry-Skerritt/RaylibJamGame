@@ -6,9 +6,10 @@
 #include "../AssetManager/AssetManager.h"
 #include "../utils/Element.h"
 #include <iostream>
+#include "../AudioManager/AudioManager.h"
 
 GameOver::GameOver()
-    : score(0), unlock_count(0), total_count(0), sacrifice_count(0), btn_sound() {
+    : score(0), unlock_count(0), total_count(0), sacrifice_count(0) {
 }
 
 GameOver::~GameOver() {
@@ -36,8 +37,6 @@ void GameOver::init(const Game *game) {
     can_continue = (sacrifice_count >= 1);
 
     result_state = -1;
-
-    btn_sound = AssetManager::GetSound("btn-click");
 }
 
 void GameOver::update() {
@@ -46,17 +45,17 @@ void GameOver::update() {
     continue_button->update();
 
     if (quit_button->isPressed()) {
-        PlaySound(btn_sound);
+        AudioManager::PlaySFX("btn-click");
         result_state = 0;
     }
 
     if (restart_button->isPressed()) {
-        PlaySound(btn_sound);
+        AudioManager::PlaySFX("btn-click");
         result_state = 1;
     }
 
     if (continue_button->isPressed()) {
-        PlaySound(btn_sound);
+        AudioManager::PlaySFX("btn-click");
         result_state = 2;
     }
 }

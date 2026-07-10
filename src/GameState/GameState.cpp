@@ -8,24 +8,22 @@
 #include <__ostream/basic_ostream.h>
 
 #include "../AssetManager/AssetManager.h"
+#include "../AudioManager/AudioManager.h"
 
-GameState::GameState() : menu(), game(), game_over(), curr_music(), progress() {
-    swapMusic("menu-music");
+GameState::GameState() : menu(), game(), game_over(), progress() {
+    AudioManager::SwapMusic("menu-music");
 }
 
 
 void GameState::update() {
-    if (curr_music != nullptr) {
-        UpdateMusicStream(*curr_music);
-    }
+    AudioManager::UpdateMusic();
+
 
     if (current_state == State::MENU) {
         menu.update();
         if (menu.shouldStartGame()) {
-            if (curr_music != nullptr) StopMusicStream(*curr_music);
-
             menu.reset();
-            swapMusic("main-music");
+            AudioManager::SwapMusic("main-music");
             current_state = State::PLAYING;
         }
     }
@@ -55,7 +53,7 @@ void GameState::update() {
             case(0):
                 // Quit
                 game.reset();
-                swapMusic("menu-music");
+                AudioManager::SwapMusic("menu-music");
                 current_state = State::MENU;
                 break;
 
@@ -80,7 +78,7 @@ void GameState::update() {
             case(0):
                 // Quit
                 game.reset();
-                swapMusic("menu-music");
+                AudioManager::SwapMusic("menu-music");
                 current_state = State::MENU;
                 break;
 
@@ -121,12 +119,5 @@ void GameState::drawUI() {
     if (current_state == State::PLAYING) {
         game.drawUI();
     }
-}
-
-void GameState::swapMusic(const std::string &new_music) {
-    if (curr_music != nullptr) StopMusicStream(*curr_music);
-    curr_music = &AssetManager::GetMusic(new_music);
-    PlayMusicStream(*curr_music);
-    SetMusicVolume(*curr_music, 0.3f); // 0.3f
 }
 

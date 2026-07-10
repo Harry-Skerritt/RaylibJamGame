@@ -9,9 +9,9 @@
 
 class Button {
 public:
-    Button(const Texture2D &texture, Vector2 position, Vector2 size, char* text, int frames = 3);
+    Button(const Texture2D &texture, Vector2 position, Vector2 size, const char* text, int frames = 3);
 
-    void update();
+    void update(const char* new_text = "");
     void draw();
 
     bool isPressed() { return btn_action; }
@@ -22,7 +22,7 @@ private:
     Vector2 btn_size;
 
     Font btn_font;
-    char* btn_text;
+    const char *btn_text;
 
     int btn_frames;
     float frame_height;

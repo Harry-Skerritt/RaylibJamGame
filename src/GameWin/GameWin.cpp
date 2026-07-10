@@ -5,6 +5,7 @@
 #include "GameWin.h"
 #include "../AssetManager/AssetManager.h"
 #include "raylib.h"
+#include "../AudioManager/AudioManager.h"
 
 GameWin::GameWin() {}
 
@@ -31,12 +32,12 @@ void GameWin::update() {
     restart_button->update();
 
     if (quit_button->isPressed()) {
-        PlaySound(btn_sound);
+        AudioManager::PlaySFX("btn-click");
         result_state = 0;
     }
 
     if (restart_button->isPressed()) {
-        PlaySound(btn_sound);
+        AudioManager::PlaySFX("btn-click");
         result_state = 1;
     }
 }

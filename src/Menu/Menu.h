@@ -6,8 +6,14 @@
 #define MENU_H
 #include <vector>
 #include "raylib.h"
+#include "../UI/Button/Button.h"
 
-
+struct BackgroundAtom {
+    Vector2 pos;
+    Vector2 velocity;
+    float rotation;
+    float rotation_speed;
+};
 class Menu {
 public:
     Menu();
@@ -21,17 +27,26 @@ public:
 private:
     bool start_game = false;
 
-    void initTexture();
-    void initFont(float font_size);
-
     void drawLogo();
     void drawStart();
 
-    bool is_texture_loaded = false;
-    Texture2D title_texture;
 
-    bool is_font_loaded = false;
-    Font font;
+    // Audio
+    Button* music_button = nullptr;
+    Button* sfx_button = nullptr;
+    const char* music_str;
+    const char* sfx_str;
+
+    void createButtons();
+    void updateButtons();
+
+
+    // Background
+    Texture2D background_atom;
+    std::vector<BackgroundAtom> background_atoms;
+    void createBackground();
+    void updateBackground();
+    void drawBackground();
 };
 
 

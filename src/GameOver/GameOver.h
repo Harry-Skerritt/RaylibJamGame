@@ -34,9 +34,6 @@ private:
     Button *continue_button = nullptr;
 
     int result_state = -1;
-
-    Sound btn_sound;
-
 };
 
 

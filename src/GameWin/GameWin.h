@@ -22,8 +22,6 @@ private:
     Button *restart_button = nullptr;
 
     int result_state = -1;
-
-    Sound btn_sound;
 };
 
 

@@ -40,6 +40,7 @@ int main() {
     AssetManager::LoadFontKey("iceland-25", "resources/fonts/Iceland/Iceland-Regular.ttf", 25);
 
     // Load Textures
+    AssetManager::LoadTextureKey("menu-title", "resources/menu/title.png");
     AssetManager::LoadTextureKey("atom", "resources/textures/atom.png");
     AssetManager::LoadTextureKey("small-btn", "resources/textures/small-btn-background.png");
     AssetManager::LoadTextureKey("sacrifice-icon", "resources/textures/sacrifice-icon.png");
