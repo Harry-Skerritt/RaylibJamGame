@@ -6,6 +6,7 @@
 #define PROGRESS_H
 #include <vector>
 
+#include "ProgressTracker.h"
 #include "../UI/TableElement/TableElement.h"
 
 
@@ -16,7 +17,7 @@ public:
 
     void init(int max_atomic_number);
     void update();
-    void draw();
+    void draw(ProgressLog log);
 
     bool transitionToGame() const { return go_to_game; }
 
@@ -41,7 +42,7 @@ private:
     std::vector<int> tm_numbers;    // Transition Metals
     void getAtomicNumbers();
 
-    void drawGroup(const char* group_title, int count, std::vector<int> numbers, Vector2 start_pos);
+    void drawGroup(const char* group_title, int count, std::vector<int> numbers, Vector2 start_pos, bool complete);
     void drawTitle();
 
 

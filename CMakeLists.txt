@@ -57,6 +57,10 @@ set(SOURCES
         src/UI/UINum/UINum.cpp
         src/UI/FloatingText/FloatingTextManager.h
         src/UI/FloatingText/FloatingTextManager.cpp
+        src/UI/Achievement/AchievementManager.h
+        src/UI/Achievement/AchievementManager.cpp
+        src/Progress/ProgressTracker.h
+        src/Progress/ProgressTracker.cpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 add_subdirectory(src)

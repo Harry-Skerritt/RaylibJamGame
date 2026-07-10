@@ -38,12 +38,14 @@ int main() {
     AssetManager::LoadFontKey("iceland-50", "resources/fonts/Iceland/Iceland-Regular.ttf", 50);
     AssetManager::LoadFontKey("iceland-40", "resources/fonts/Iceland/Iceland-Regular.ttf", 40);
     AssetManager::LoadFontKey("iceland-25", "resources/fonts/Iceland/Iceland-Regular.ttf", 25);
+    AssetManager::LoadFontKey("iceland-20", "resources/fonts/Iceland/Iceland-Regular.ttf", 20);
 
     // Load Textures
     AssetManager::LoadTextureKey("menu-title", "resources/menu/title.png");
     AssetManager::LoadTextureKey("atom", "resources/textures/atom.png");
     AssetManager::LoadTextureKey("small-btn", "resources/textures/small-btn-background.png");
     AssetManager::LoadTextureKey("sacrifice-icon", "resources/textures/sacrifice-icon.png");
+    AssetManager::LoadTextureKey("trophy-icon", "resources/textures/trophy.png");
 
     // Sounds
     AssetManager::LoadSoundKey("tile-place", "resources/sounds/tile_place.ogg");
@@ -56,6 +58,7 @@ int main() {
     AssetManager::LoadSoundKey("sacrifice-mode", "resources/sounds/sacrifice_mode.ogg");
     AssetManager::LoadSoundKey("game-win", "resources/sounds/game_win.ogg");
     AssetManager::LoadSoundKey("catalyst", "resources/sounds/catalyst.ogg");
+    AssetManager::LoadSoundKey("achievement", "resources/sounds/achievement.ogg");
 
     // Music
     AssetManager::LoadMusicKey("main-music", "resources/music/main-music.mp3");

@@ -28,27 +28,27 @@ void Progress::update() {
     }
 }
 
-void Progress::draw() {
+void Progress::draw(ProgressLog log) {
     drawTitle();
 
-    drawGroup("Other Non Metals", 11, onm_numbers, start_pos);
+    drawGroup("Other Non Metals", 11, onm_numbers, start_pos, log.onm_complete);
 
-    drawGroup("Other Metals", 14, om_numbers, { start_pos.x, start_pos.y + group_gap_y });
+    drawGroup("Other Metals", 14, om_numbers, { start_pos.x, start_pos.y + group_gap_y }, log.om_complete );
 
-    drawGroup("Transition Metals", 36, tm_numbers, { start_pos.x, start_pos.y + group_gap_y * 2});
+    drawGroup("Transition Metals", 36, tm_numbers, { start_pos.x, start_pos.y + group_gap_y * 2}, log.tm_complete );
 
-    drawGroup("Halogens", 6, h_numbers, { start_pos.x, start_pos.y + group_gap_y * 3 + 100});
-    drawGroup("Alkali Metals", 6, am_numbers, { static_cast<float>(GetScreenWidth()) - 287, start_pos.y + group_gap_y * 3 + 100});
+    drawGroup("Halogens", 6, h_numbers, { start_pos.x, start_pos.y + group_gap_y * 3 + 100}, log.h_complete);
+    drawGroup("Alkali Metals", 6, am_numbers, { static_cast<float>(GetScreenWidth()) - 287, start_pos.y + group_gap_y * 3 + 100}, log.am_complete);
 
-    drawGroup("Noble Gasses", 7, ng_numbers, { start_pos.x, start_pos.y + group_gap_y * 4 + 100});
-    drawGroup("Alkali Earth Metals", 6, aem_numbers, { static_cast<float>(GetScreenWidth()) - 287, start_pos.y + group_gap_y * 4 + 100});
+    drawGroup("Noble Gasses", 7, ng_numbers, { start_pos.x, start_pos.y + group_gap_y * 4 + 100}, log.ng_complete);
+    drawGroup("Alkali Earth Metals", 6, aem_numbers, { static_cast<float>(GetScreenWidth()) - 287, start_pos.y + group_gap_y * 4 + 100}, log.aem_complete);
 
-    drawGroup("Actinoids", 15, a_numbers, { start_pos.x, start_pos.y + group_gap_y * 5 + 100});
+    drawGroup("Actinoids", 15, a_numbers, { start_pos.x, start_pos.y + group_gap_y * 5 + 100}, log.a_complete );
 
-    drawGroup("Rare Earth Elements & Lanthanoids", 17, ree_numbers, { start_pos.x, start_pos.y + group_gap_y * 6 + 100});
+    drawGroup("Rare Earth Elements & Lanthanoids", 17, ree_numbers, { start_pos.x, start_pos.y + group_gap_y * 6 + 100}, log.ree_complete);
 }
 
-void Progress::drawGroup(const char* group_title, const int count, std::vector<int> numbers, const Vector2 start_pos) {
+void Progress::drawGroup(const char* group_title, const int count, std::vector<int> numbers, const Vector2 start_pos, bool complete) {
     // Load Fonts
     auto symbol_font = AssetManager::GetFont("itim-25");
     auto num_font = AssetManager::GetFont("itim-15");
@@ -56,7 +56,7 @@ void Progress::drawGroup(const char* group_title, const int count, std::vector<i
 
     // Draw Title
     auto title_dims = MeasureTextEx(title_font, group_title, 30, 2);
-    DrawTextEx(title_font, group_title, start_pos, 30, 2, WHITE);
+    DrawTextEx(title_font, group_title, start_pos, 30, 2, complete ? GOLD : WHITE);
 
     // Draw
     for (int i = 0; i < count; i++) {

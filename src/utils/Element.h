@@ -103,6 +103,20 @@ inline Color getColourForType(ElementType type) {
     }
 }
 
+inline std::string getTypePluralString(ElementType type) {
+    switch (type) {
+        case ALKALI_METAL: return "Alkali Metals";
+        case ALKALI_EARTH_METAL: return "Alkali Earth Metals";
+        case TRANSITION_METAL: return "Transition Metals";
+        case OTHER_METAL: return "Other Metals";
+        case LANTHANIDE: return "Lanthanides";
+        case ACTINOID: return "Actini Metals";
+        case OTHER_NON_METAL: return "Other Non Metals";
+        case HALOGEN: return "Halogens";
+        case NOBLE_GAS: return "Noble Gases";
+    }
+}
+
 struct Coord {
     int q, r;
 

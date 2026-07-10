@@ -111,7 +111,7 @@ void GameState::draw() {
         game_win.draw();
     }
     else if (current_state == State::PROGRESS) {
-        progress.draw();
+        progress.draw(game.getProgressLog());
     }
 }
 

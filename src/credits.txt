@@ -5,7 +5,8 @@ Art: Harry Skerritt
 Sound Effects:
 Sound Effect by <a href="https://pixabay.com/users/u_8g40a9z0la-45586904/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=234708">u_8g40a9z0la</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=234708">Pixabay</a>
 
-
+Trophy Icon
+<a href="https://www.flaticon.com/free-icons/trophy" title="trophy icons">Trophy icons created by Maan Icons - Flaticon</a>
 
 Main Music:
 https://opengameart.org/content/puzzle-tune-1

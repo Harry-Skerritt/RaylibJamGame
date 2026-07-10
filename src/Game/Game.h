@@ -10,6 +10,8 @@
 #include "../UI/Icon/Icon.h"
 #include <queue>
 
+#include "../Progress/ProgressTracker.h"
+#include "../UI/Achievement/AchievementManager.h"
 #include "../UI/FloatingText/FloatingTextManager.h"
 #include "../UI/UINum/UINum.h"
 
@@ -34,6 +36,7 @@ public:
     [[nodiscard]] int sacrificeCount() const { return num_sacrifice; }
     int getMaxAtomicNumber() const { return m_spawner.getMaxAtomicNumber(); }
 
+    ProgressLog getProgressLog() { return progress_tracker.getProgressLog(); }
 
     // Reset
     void reset();
@@ -44,6 +47,7 @@ private:
     Grid m_grid;
     Vector2 grid_pos = { 360.0f, 310.0f };
     Vector2 grid_sacrifice_pos = { 360.0f, 360.0f };
+    ProgressTracker progress_tracker;
 
     // Spawning
     float spawn_timer = 0.0f;
@@ -54,6 +58,7 @@ private:
     Hotbar m_hotbar;
     UINum m_ui;
     FloatingTextManager text_manager;
+    AchievementManager achievement_manager;
     Icon sacrifice_icon;
 
     // Tiles

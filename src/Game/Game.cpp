@@ -25,6 +25,12 @@ Game::~Game() {
 void Game::update() {
     m_grid.update();
     text_manager.update(GetFrameTime());
+    achievement_manager.update(GetFrameTime());
+
+    if (IsKeyDown(KEY_A)) {
+        achievement_manager.add("Transition Metals Complete", TRANSITION_METAL);
+        AudioManager::PlaySFX("achievement");
+    }
 
     handleSpawning();
     handlePlacing();
@@ -48,6 +54,7 @@ void Game::draw() {
 
     drawTilePlacement();
     text_manager.draw(AssetManager::GetFont("itim-25"));
+    achievement_manager.draw(AssetManager::GetFont("iceland-20"), AssetManager::GetFont("itim-25"));
 }
 
 void Game::drawUI() {
@@ -175,6 +182,7 @@ void Game::placeTile(Tile* tile) {
 
     // Placing
     m_grid.setTile(tile->q, tile->r, m_hotbar.getSlot(0));
+    progress_tracker.trackElement(m_hotbar.getSlot(0));
 
     for (int i = 0; i < 6; i++) {
         Tile* n = m_grid.getNeighbour(tile->q, tile->r, i);
@@ -204,8 +212,16 @@ void Game::increaseTileNumber(const int q, const int r, const int amt) {
 
     int new_atomic_number = tile->atomic_number + amt;
     m_grid.setTile(tile->q, tile->r, new_atomic_number);
-    m_spawner.setMaxAtomicNumber(new_atomic_number);
+    progress_tracker.trackElement(new_atomic_number);
 
+    ElementType type = PeriodicTable[new_atomic_number].type;
+    if (progress_tracker.checkJustCompleted(type)) {
+        std::string group_name = getTypePluralString(type);
+        achievement_manager.add(group_name + " Complete!", type);
+        AudioManager::PlaySFX("achievement");
+    }
+
+    m_spawner.setMaxAtomicNumber(new_atomic_number);
     checkSacrificeMilestone(new_atomic_number);
 }
 
